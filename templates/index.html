@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Smart Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        {% for app in apps %}
+        <div class="app" tabindex="0" data-app="{{ app.name }}">
+            <img src="/static/{{ app.icon }}" alt="{{ app.name }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function launchApp(appName) {
+            fetch(`/launch?app=${encodeURIComponent(appName)}`)
+                .then(res => res.json())
+                .then(data => console.log(data));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const apps = document.querySelectorAll('.app');
+
+            // Optional: arrow key navigation
+            let focusedIndex = 0;
+            apps[focusedIndex].focus();
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    focusedIndex = (focusedIndex + 1) % apps.length;
+                    apps[focusedIndex].focus();
+                } else if (e.key === 'ArrowLeft') {
+                    focusedIndex = (focusedIndex - 1 + apps.length) % apps.length;
+                    apps[focusedIndex].focus();
+                } else if (e.key === 'Enter') {
+                    const focused = document.activeElement;
+                    if (focused.classList.contains('app')) {
+                        launchApp(focused.dataset.app);
+                    }
+                }
+            });
+
+            // Allow mouse click to also trigger
+            apps.forEach(app => {
+                app.addEventListener('click', () => launchApp(app.dataset.app));
+            });
+        });
+    </script>
+</body>
+
+</html>

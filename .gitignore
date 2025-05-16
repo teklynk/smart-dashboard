@@ -1,0 +1,19 @@
+# Virtual environment folder
+venv/
+
+apps.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables file (if you have one)
+.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

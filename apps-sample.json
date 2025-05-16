@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Plex",
+    "icon": "icons/plex.png",
+    "path": "flatpak run tv.plex.PlexDesktop"
+  },
+  {
+    "name": "YouTube",
+    "icon": "icons/youtube.png",
+    "path": "https://youtube.com"
+  }
+]
