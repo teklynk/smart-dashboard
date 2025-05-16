@@ -23,6 +23,27 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+
+            // Function to hide the cursor
+            function hideCursor() {
+                document.body.classList.add("hidden-cursor");
+            }
+
+            // Function to show the cursor
+            function showCursor() {
+                document.body.classList.remove("hidden-cursor");
+            }
+
+            // Hide the cursor after 5 seconds
+            setTimeout(hideCursor, 5000);
+
+            // Show the cursor when the mouse is moved
+            document.addEventListener("mousemove", function() {
+                showCursor();
+                // Optionally, you can reset the timer to hide the cursor again after another 5 seconds
+                setTimeout(hideCursor, 5000);
+            });
+
             const apps = document.querySelectorAll('.app');
 
             // Optional: arrow key navigation

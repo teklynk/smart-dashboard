@@ -1,12 +1,32 @@
 [
   {
     "name": "Plex",
-    "icon": "icons/plex.png",
-    "path": "flatpak run tv.plex.PlexDesktop"
+    "icon": "icons/plex-logo-full-color-on-black.svg",
+    "command": "flatpak run tv.plex.PlexDesktop"
+  },
+  {
+    "name": "PlexAmp",
+    "icon": "icons/plexamp-app-icon.webp",
+    "command": "flatpak run com.plexamp.Plexamp"
   },
   {
     "name": "YouTube",
-    "icon": "icons/youtube.png",
-    "path": "https://youtube.com"
+    "icon": "icons/yt_logo_rgb_dark.png",
+    "command": "https://www.youtube.com/feed/subscriptions"
+  },
+  {
+    "name": "Kodi",
+    "icon": "icons/kodi-Thumbnail-symbol-transparent.webp",
+    "command": "flatpak run tv.kodi.Kodi"
+  },
+  {
+    "name": "Netflix",
+    "icon": "icons/Logos-Readability-Netflix-logo.png",
+    "command": "https://netflix.com/browse"
+  },
+  {
+    "name": "Twitch",
+    "icon": "icons/glitch_flat_purple.png",
+    "command": "https://m.twitch.tv/directory/following"
   }
 ]

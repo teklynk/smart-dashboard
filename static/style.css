@@ -1,13 +1,18 @@
 body {
   background: #000;
-  color: #fff;
+  color: #eee;
   font-family: sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   margin: 0;
+  height: 100vh;
 }
+
+.hidden-cursor {
+  cursor: none;
+}
+
 .dashboard {
   display: flex;
   flex-wrap: wrap;
@@ -15,6 +20,7 @@ body {
   gap: 20px;
   padding: 20px;
 }
+
 .app {
   width: 160px;
   height: 120px;

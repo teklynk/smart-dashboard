@@ -24,14 +24,14 @@ def launch_app():
     if not matched_app:
         return jsonify({"error": "App not found"}), 404
 
-    path = matched_app["path"]
+    command = matched_app["command"]
 
-    if path.startswith("http://") or path.startswith("https://"):
-        subprocess.Popen(["chromium", "--new-window", "--kiosk", path])
+    if command.startswith("http://") or command.startswith("https://"):
+        subprocess.Popen(["chromium", "--new-window", "--kiosk", command])
         return jsonify({"status": "launched in browser"})
     else:
         try:
-            subprocess.Popen(path.split(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen(command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             return jsonify({"status": "app launched"})
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
