@@ -7,6 +7,7 @@ body {
   align-items: center;
   margin: 0;
   height: 100vh;
+  zoom: 1.0;
 }
 
 .hidden-cursor {
@@ -22,8 +23,8 @@ body {
 }
 
 .app {
-  width: 160px;
-  height: 120px;
+  width: 200px;
+  height: 150px;
   margin: 10px;
   padding: 10px;
   background-color: #1e1e1e;
@@ -39,8 +40,8 @@ body {
 }
 
 .app img {
-  width: 160px;
-  height: 120px;
+  width: 200px;
+  height: 150px;
   object-fit: contain;
 }
 

@@ -27,7 +27,7 @@ def launch_app():
     command = matched_app["command"]
 
     if command.startswith("http://") or command.startswith("https://"):
-        subprocess.Popen(["chromium", "--new-window", "--kiosk", command])
+        subprocess.Popen(["chromium", "--force-device-scale-factor=2.0", "--new-window", "--start-fullscreen", command])
         return jsonify({"status": "launched in browser"})
     else:
         try:

@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ```
 - Run the server
 ```bash
-python server.py
+python3 server.py
 ```
 The dashboard will be available at http://localhost:8080
 
