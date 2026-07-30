@@ -70,6 +70,51 @@
                 app.addEventListener('click', () => launchApp(app.dataset.app));
             });
         });
+
+        // Configuration
+        const xMinutes = 5; // Change this number to set your desired interval time
+        const backgrounds = [
+            '0188.jpg',
+            '0277.jpg',
+            '0309.jpg',
+            '0327.jpg',
+            'color-splash-3.jpg',
+            '0016.jpg',
+            '0018.jpg',
+            '0072.jpg',
+            '0078.jpg',
+            '0105.jpg',
+            '0123.jpg',
+            '0199.jpg',
+            '0235.jpg'
+        ];
+
+        function setRandomBackground() {
+            if (backgrounds.length === 0) return;
+
+            // Get a random index
+            const randomIndex = Math.floor(Math.random() * backgrounds.length);
+            const randomImage = backgrounds[randomIndex];
+            
+            // Apply styles
+            document.body.style.backgroundImage = `url('/static/backgrounds/${randomImage}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+        }
+
+        // Set background immediately on load
+        setRandomBackground();
+
+        // Set up the interval to run every X minutes
+        // Multiply minutes by 60 seconds, then by 1000 milliseconds
+        const intervalMs = xMinutes * 60 * 1000;
+
+        const backgroundInterval = setInterval(setRandomBackground, intervalMs);
+
+        // Optional: Log when the change happens for debugging
+        console.log(`Background will update every ${xMinutes} minutes`);
     </script>
 </body>
 

@@ -8,6 +8,7 @@ body {
   margin: 0;
   height: 100vh;
   zoom: 1.0;
+  background: #000 url(/static/backgrounds/0277.jpg) center center / cover;
 }
 
 .hidden-cursor {
