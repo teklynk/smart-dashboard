@@ -14,6 +14,9 @@ with open('apps.json') as f:
 with open('weather.json') as f:
     weather = json.load(f)
 
+with open('backgrounds.json') as f:
+    backgrounds = json.load(f)
+
 def close_existing_webapp(app_var):
     pattern = re.compile(rf"WebApp-{re.escape(app_var)}")
     try:
@@ -55,7 +58,7 @@ def close_existing_webapp(app_var):
 
 @app.route('/')
 def dashboard():
-    return render_template('index.html', apps=apps, weather=weather)
+    return render_template('index.html', apps=apps, weather=weather, backgrounds=backgrounds)
 
 @app.route('/launch')
 def launch_app():

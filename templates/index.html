@@ -12,10 +12,11 @@
 </head>
 
 <body>
+    <div id="background-layer"></div>
     <div class="upper-info-bar">
         <div id="clock-container">
-            <p id="time"></p>
-            <p id="date"></p>
+            <p id="time">--</p>
+            <p id="date">--</p>
         </div>
 
         <div id="weather">
@@ -92,50 +93,67 @@
             });
         });
 
-        // Configuration
-        const xMinutes = 5; // Change this number to set your desired interval time
-        const backgrounds = [
-            '0188.jpg',
-            '0277.jpg',
-            '0309.jpg',
-            '0327.jpg',
-            'color-splash-3.jpg',
-            '0016.jpg',
-            '0018.jpg',
-            '0072.jpg',
-            '0078.jpg',
-            '0105.jpg',
-            '0123.jpg',
-            '0199.jpg',
-            '0235.jpg'
-        ];
+        // Injected from Flask via backgrounds.json
+        let backgrounds = {{ backgrounds | tojson }};
+
+        // Fisher-Yates shuffle algorithm (in-place shuffle)
+        function shuffleArray(array) {
+            const shuffled = [...array]; // Create a copy so we don't mutate original
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Shuffle backgrounds on page load for variety
+        backgrounds = shuffleArray(backgrounds);
+        console.log(`Backgrounds shuffled: ${backgrounds.length} images loaded`);
+
+        let lastIndex = -1;
 
         function setRandomBackground() {
             if (backgrounds.length === 0) return;
 
-            // Get a random index
-            const randomIndex = Math.floor(Math.random() * backgrounds.length);
-            const randomImage = backgrounds[randomIndex];
+            // Pick a random index different from the last one
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * backgrounds.length);
+            } while (backgrounds.length > 1 && randomIndex === lastIndex);
 
-            // Apply styles
-            document.body.style.backgroundImage = `url('/static/backgrounds/${randomImage}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center';
-            document.body.style.backgroundRepeat = 'no-repeat';
-            document.body.style.backgroundAttachment = 'fixed';
+            lastIndex = randomIndex;
+            const imgSrc = `/static/backgrounds/${backgrounds[randomIndex]}`;
+
+            const layer = document.getElementById('background-layer');
+            const newImg = document.createElement('img');
+            newImg.src = imgSrc;
+            newImg.alt = '';
+
+            newImg.onload = () => {
+                layer.insertBefore(newImg, layer.firstChild);
+                requestAnimationFrame(() => {
+                    newImg.classList.add('active');
+
+                    // Fade out any previously active images
+                    const oldImages = layer.querySelectorAll('img.active');
+                    oldImages.forEach(img => {
+                        if (img !== newImg) {
+                            img.classList.remove('active');
+                            setTimeout(() => img.remove(), 2000);
+                        }
+                    });
+                });
+            };
         }
 
-        // Set background immediately on load
+        // Load the FIRST shuffled background on page load
         setRandomBackground();
 
-        // Set up the interval to run every X minutes
-        // Multiply minutes by 60 seconds, then by 1000 milliseconds
+        // Crossfade every X minutes
+        const xMinutes = 5;
         const intervalMs = xMinutes * 60 * 1000;
-
-        const backgroundInterval = setInterval(setRandomBackground, intervalMs);
-
-        // Optional: Log when the change happens for debugging
-        console.log(`Background will update every ${xMinutes} minutes`);
+        setInterval(setRandomBackground, intervalMs);
+        console.log(`Background will crossfade every ${xMinutes} minutes`);
 
         function updateClock() {
             const now = new Date();

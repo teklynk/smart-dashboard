@@ -9,14 +9,36 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Change to that directory
 cd "$SCRIPT_DIR"
 
+# --- BACKGROUNDS: Auto-generate backgrounds.json ---
+
+BACKGROUNDS_DIR="$SCRIPT_DIR/static/backgrounds"
+BACKGROUNDS_JSON="$SCRIPT_DIR/backgrounds.json"
+
+if [ -d "$BACKGROUNDS_DIR" ]; then
+    echo "Scanning $BACKGROUNDS_DIR for background images..."
+    
+    # Build JSON array from image files
+    IMAGES=$(find "$BACKGROUNDS_DIR" -maxdepth 1 \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) -printf '"%f",')
+    
+    if [ -n "$IMAGES" ]; then
+        IMAGES="[${IMAGES%,}]"
+        echo "$IMAGES" > "$BACKGROUNDS_JSON"
+        echo "Generated backgrounds.json with $(echo $IMAGES | grep -o '"[^"]*"' | wc -l) images"
+    else
+        echo "No images found in $BACKGROUNDS_DIR"
+        echo "[]" > "$BACKGROUNDS_JSON"
+    fi
+else
+    echo "Warning: Directory $BACKGROUNDS_DIR does not exist"
+    echo "[]" > "$BACKGROUNDS_JSON"
+fi
+
 # --- CLEANUP: Stop existing instances ---
 
 # Kill any existing 'server.py' processes
-# We use pgrep -f to match the full command line and grep -v to exclude the current script's PID ($$)
 pkill -f "python.*server.py"
 
 # Kill any existing browser instances
-# This prevents multiple browsers from opening or conflicting
 killall -9 brave-origin-stable 2>/dev/null
 killall -9 brave-origin 2>/dev/null
 killall -9 brave 2>/dev/null
