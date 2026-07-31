@@ -1,14 +1,13 @@
 body {
-  background: #000;
-  color: #eee;
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   margin: 0;
-  height: 100vh;
-  zoom: 1.0;
-  background: #000 url(/static/backgrounds/0277.jpg) center center / cover;
 }
 
 .hidden-cursor {
@@ -19,19 +18,22 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  width: fit-content;
   gap: 20px;
   padding: 20px;
 }
 
 .app {
-  width: 200px;
+  width: clamp(150px, 20vw, 250px);
   height: 150px;
   margin: 10px;
   padding: 10px;
+  aspect-ratio: 4 / 3;
   background-color: #1e1e1e;
   border-radius: 12px;
+  box-sizing: border-box;
   text-align: center;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -41,9 +43,10 @@ body {
 }
 
 .app img {
-  width: 200px;
-  height: 150px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .app p {
@@ -57,4 +60,31 @@ body {
   background-color: #333;
   transform: scale(1.05);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+#clock-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-self: auto;
+  text-align: left;
+  padding: 60px 60px 80px 60px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+#time {
+  font-size: 5em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffffff95;
+}
+
+#date {
+  font-size: 3em;
+  margin-top: 10px;
+  color: #eeeeee95;
 }
