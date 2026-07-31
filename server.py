@@ -7,9 +7,12 @@ import signal
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# Load app config
+# Load app configs
 with open('apps.json') as f:
     apps = json.load(f)
+
+with open('weather.json') as f:
+    weather = json.load(f)
 
 def close_existing_webapp(app_var):
     pattern = re.compile(rf"WebApp-{re.escape(app_var)}")
@@ -52,7 +55,7 @@ def close_existing_webapp(app_var):
 
 @app.route('/')
 def dashboard():
-    return render_template('index.html', apps=apps)
+    return render_template('index.html', apps=apps, weather=weather)
 
 @app.route('/launch')
 def launch_app():

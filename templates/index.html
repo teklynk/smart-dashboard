@@ -5,14 +5,28 @@
     <title>Smart Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
-    <div id="clock-container">
-        <div id="time"></div>
-        <div id="date"></div>
+    <div class="upper-info-bar">
+        <div id="clock-container">
+            <p id="time"></p>
+            <p id="date"></p>
+        </div>
+
+        <div id="weather">
+            <img id="icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                alt="">
+            <div>
+                <p id="location">Loading weather...</p>
+                <p class="temp" id="temp">--</p>
+                <p class="desc" id="desc">--</p>
+            </div>
+        </div>
     </div>
     <div class="dashboard">
         {% for app in apps %}
@@ -45,7 +59,7 @@
             setTimeout(hideCursor, 5000);
 
             // Show the cursor when the mouse is moved
-            document.addEventListener("mousemove", function() {
+            document.addEventListener("mousemove", function () {
                 showCursor();
                 // Optionally, you can reset the timer to hide the cursor again after another 5 seconds
                 setTimeout(hideCursor, 5000);
@@ -102,7 +116,7 @@
             // Get a random index
             const randomIndex = Math.floor(Math.random() * backgrounds.length);
             const randomImage = backgrounds[randomIndex];
-            
+
             // Apply styles
             document.body.style.backgroundImage = `url('/static/backgrounds/${randomImage}')`;
             document.body.style.backgroundSize = 'cover';
@@ -125,35 +139,35 @@
 
         function updateClock() {
             const now = new Date();
-            
+
             // Time Components
             let hours = now.getHours();
             const minutes = now.getMinutes();
-            
+
             // Determine AM or PM
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            
+
             // Convert to 12-hour format
             hours = hours % 12;
             hours = hours ? hours : 12; // Handle midnight case (0 -> 12)
-            
+
             // Add leading zeros
             const strHours = hours < 10 ? '' + hours : hours;
             const strMinutes = minutes < 10 ? '0' + minutes : minutes;
-            
+
             // Format Time String
             document.getElementById('time').innerText = `${strHours}:${strMinutes} ${ampm}`;
-            
+
             // Date Components
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                            'July', 'August', 'September', 'October', 'November', 'December'];
-            
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
             const dayName = days[now.getDay()];
             const monthName = months[now.getMonth()];
             const dateNum = now.getDate();
             const year = now.getFullYear();
-            
+
             // Format Date String
             document.getElementById('date').innerText = `${dayName}, ${monthName} ${dateNum}, ${year}`;
         }
@@ -161,6 +175,51 @@
         // Update immediately, then every second
         updateClock();
         setInterval(updateClock, 1000);
+
+        // Injected from Flask via weather.json
+        const CONFIG = {{ weather | tojson }};
+
+        const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+
+        async function fetchWeather() {
+            const weatherEl = document.getElementById('weather');
+
+            // Hide if config is missing or empty
+            if (!CONFIG.zipCode || !CONFIG.apiKey || CONFIG.apiKey === 'YOUR_API_KEY') {
+                weatherEl.style.display = 'none';
+                return;
+            }
+
+            try {
+                const res = await fetch(
+                    `${API_URL}?zip=${CONFIG.zipCode}&units=${CONFIG.units}&appid=${CONFIG.apiKey}`
+                );
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.message || `HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                document.getElementById('location').textContent = data.name;
+                document.getElementById('icon').src =
+                    `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                document.getElementById('icon').alt = data.weather[0].description;
+                document.getElementById('temp').textContent =
+                    `${Math.round(data.main.temp)}°${CONFIG.units === 'imperial' ? 'F' : 'C'}`;
+                document.getElementById('desc').textContent = data.weather[0].description;
+
+                weatherEl.style.display = '';  // Ensure visible on success
+
+            } catch (err) {
+                console.error('Weather error:', err);
+            }
+        }
+
+        // Fetch immediately, then every hour
+        fetchWeather();
+        setInterval(fetchWeather, 3600000);
     </script>
 </body>
 

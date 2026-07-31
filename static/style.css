@@ -2,6 +2,7 @@ body {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  background-color: #1e1e1e;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +29,6 @@ body {
   height: 150px;
   margin: 10px;
   padding: 10px;
-  aspect-ratio: 4 / 3;
   background-color: #1e1e1e;
   border-radius: 12px;
   box-sizing: border-box;
@@ -62,18 +62,25 @@ body {
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-#clock-container {
+/* Upper-left info bar */
+.upper-info-bar {
   position: fixed;
   top: 0;
   left: 0;
-  align-self: auto;
-  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
   padding: 60px 60px 80px 60px;
-  background: transparent;
+  z-index: 1000;
+}
+
+/* Clock widget */
+#clock-container {
   display: flex;
   flex-direction: column;
+  text-align: left;
+  background: transparent;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
 }
 
 #time {
@@ -81,10 +88,171 @@ body {
   font-weight: bold;
   letter-spacing: 2px;
   color: #ffffff95;
+  margin: 0;
 }
 
 #date {
   font-size: 3em;
   margin-top: 10px;
   color: #eeeeee95;
+  margin: 0;
+}
+
+/* Weather widget */
+#weather {
+  text-align: left;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#weather #icon {
+  width: 160px;
+  height: 160px;
+}
+
+#weather .temp {
+  font-size: 5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ffffff95;
+}
+
+#weather .desc {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  color: #eeeeee95;
+  margin: 0;
+}
+
+#weather #location {
+  font-size: 1.2rem;
+  color: #ffffffaa;
+  margin: 0;
+}
+
+/* Small displays / TVs (max-width: 1366px) */
+@media (max-width: 1366px) {
+  .app {
+    width: clamp(120px, 18vw, 200px);
+    height: 120px;
+    font-size: 13px;
+    margin: 8px;
+    padding: 8px;
+  }
+
+  .upper-info-bar {
+    padding: 40px 40px 60px 40px;
+    gap: 25px;
+  }
+
+  #time {
+    font-size: 2.5em;
+  }
+
+  #date {
+    font-size: 1.5em;
+    margin-top: 8px;
+  }
+
+  #weather #location {
+    font-size: 1rem;
+  }
+
+  #weather .temp {
+    font-size: 2rem;
+  }
+
+  #weather .desc {
+    font-size: 1.2rem;
+  }
+
+  #weather #icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* 1440p displays (2560px+) */
+@media (min-width: 2560px) {
+  .app {
+    width: clamp(200px, 25vw, 300px);
+    height: 170px;
+    font-size: 16px;
+    margin: 15px;
+  }
+
+  .upper-info-bar {
+    padding: 80px 80px 100px 80px;
+  }
+
+  #time {
+    font-size: 6em;
+  }
+
+  #date {
+    font-size: 4em;
+    margin-top: 15px;
+  }
+
+  #weather #location {
+    font-size: 2.5rem;
+  }
+
+  #weather .temp {
+    font-size: 5rem;
+  }
+
+  #weather .desc {
+    font-size: 2.5rem;
+  }
+
+  #weather #icon {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* 4K displays (3840px+) */
+@media (min-width: 3840px) {
+  .app {
+    width: clamp(250px, 30vw, 495px);
+    height: 303px;
+    font-size: 18px;
+    margin: 20px;
+  }
+
+  .upper-info-bar {
+    padding: 100px 100px 120px 100px;
+  }
+
+  #time {
+    font-size: 7em;
+  }
+
+  #date {
+    font-size: 4.5em;
+    margin-top: 20px;
+  }
+
+    #weather #location {
+    font-size: 3rem;
+  }
+
+  #weather .temp {
+    font-size: 6rem;
+  }
+
+  #weather .desc {
+    font-size: 3rem;
+  }
+
+  #weather #icon {
+    width: 160px;
+    height: 160px;
+  }
 }

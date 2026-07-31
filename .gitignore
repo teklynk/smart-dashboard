@@ -2,6 +2,7 @@
 venv/
 
 apps.json
+weather.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
