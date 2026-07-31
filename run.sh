@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Set PATH explicitly (critical for autostart)
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin"
+
+# Get the absolute directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Change to that directory
+cd "$SCRIPT_DIR"
+
+# --- CLEANUP: Stop existing instances ---
+
+# Kill any existing 'server.py' processes
+# We use pgrep -f to match the full command line and grep -v to exclude the current script's PID ($$)
+pkill -f "python.*server.py"
+
+# Kill any existing browser instances
+# This prevents multiple browsers from opening or conflicting
+killall -9 brave-origin-stable 2>/dev/null
+killall -9 brave-origin 2>/dev/null
+killall -9 brave 2>/dev/null
+
+sleep 1
+
+# --- STARTUP: Launch new instances ---
+
+# Execute the Python script in the background
+"$SCRIPT_DIR/venv/bin/python" "$SCRIPT_DIR/server.py" "$SCRIPT_DIR" &
+
+sleep 3
+
+# Launch Browser in fullscreen
+/usr/bin/brave-origin-stable --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --noerrdialogs
