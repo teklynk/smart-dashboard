@@ -1,13 +1,15 @@
 # Smart Dashboard
 A simple smart-TV style dashboard web app that launches desktop or web apps via a Python Flask backend.
 
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/teklynk/smart-dhaboard/screenshots/blob/main/screenshot.png?raw=true"><img src="https://github.com/teklynk/smart-dhaboard/screenshots/blob/main/screenshot.png?raw=true" style="max-width: 100%;"></a>
+
 ## Features
 
-Loads app data (name, icon, path) from a JSON config
+Loads app data (wallpapers, icons, apps) from JSON files
 
 Frontend dashboard with clickable app icons
 
-Launches local desktop apps or opens URLs in the browser
+Launches local desktop apps or opens URLs
 
 Runs on localhost:8080
 
