@@ -72,6 +72,7 @@ def launch_app():
 
     command = matched_app["command"]
     app_label = matched_app["name"]
+    scale_factor = matched_app.get('force-device-scale-factor', '1.0')
 
     if command.startswith("http://") or command.startswith("https://"):
         close_existing_webapp(app_label)
@@ -89,6 +90,7 @@ def launch_app():
             "--kiosk",
             "--no-first-run",
             "--noerrdialogs",
+            f"--force-device-scale-factor={scale_factor}"
         ])
         return jsonify({"status": "launched in browser"})
     else:

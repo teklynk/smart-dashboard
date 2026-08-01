@@ -2,36 +2,43 @@
   {
     "name": "Plex",
     "icon": "icons/plex.png",
-    "command": "flatpak run tv.plex.PlexDesktop"
+    "command": "flatpak run tv.plex.PlexHTPC",
+    "force-device-scale-factor": ""
   },
   {
     "name": "Jellyfin",
     "icon": "icons/jellyfin.png",
-    "command": "flatpak run JellyfinDesktop"
+    "command": "flatpak run JellyfinDesktop",
+    "force-device-scale-factor": ""
   },
   {
     "name": "Kodi",
     "icon": "icons/kodi.png",
-    "command": "flatpak run tv.kodi.Kodi"
+    "command": "flatpak run tv.kodi.Kodi",
+    "force-device-scale-factor": ""
   },
   {
     "name": "YouTube",
     "icon": "icons/youtube.png",
-    "command": "flatpak run rocks.shy.VacuumTube --fullscreen"
+    "command": "flatpak run rocks.shy.VacuumTube --fullscreen",
+    "force-device-scale-factor": ""
   },
   {
     "name": "Netflix",
     "icon": "icons/netflix.png",
-    "command": "https://netflix.com/browse"
+    "command": "https://netflix.com/browse",
+    "force-device-scale-factor": "1.25"
   },
   {
     "name": "Twitch",
     "icon": "icons/twitch.png",
-    "command": "https://twitchmultiview.teklynk.com"
+    "command": "https://twitchmultiview.teklynk.com",
+    "force-device-scale-factor": "1.50"
   },
   {
     "name": "Settings",
     "icon": "icons/icons8-settings-500.png",
-    "command": "nm-connection-editor"
+    "command": "nm-connection-editor",
+    "force-device-scale-factor": ""
   }
 ]
