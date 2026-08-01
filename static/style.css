@@ -94,7 +94,7 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 40px;
-  padding: 60px 60px 80px 60px;
+  padding: 60px 60px 0px 60px;
   z-index: 1000;
 }
 
@@ -109,18 +109,17 @@ body {
 
 #time {
   font-size: 5em;
-  font-weight: bold;
+  font-weight: normal;
   letter-spacing: 2px;
-  color: #ffffff95;
+  color: #ffffff;
   margin: 0;
   text-transform: lowercase;
 }
 
 #date {
-  font-size: 3em;
-  margin-top: 10px;
-  color: #eeeeee95;
-  margin: 0;
+  font-size: 2em;
+  margin: 10px 0;
+  color: #ffffff;
 }
 
 /* Weather widget */
@@ -138,27 +137,28 @@ body {
 #weather #icon {
   width: 160px;
   height: 160px;
-  opacity: .7;
 }
 
 #weather .temp {
   font-size: 5rem;
-  font-weight: bold;
+  font-weight: normal;
   margin: 0;
-  color: #ffffff95;
+  color: #ffffff;
 }
 
 #weather .desc {
   text-transform: capitalize;
   font-size: 1.5rem;
-  color: #eeeeee95;
+  color: #ffffff;
   margin: 0;
+  display: none;
 }
 
 #weather #location {
   font-size: 1.2rem;
-  color: #ffffffaa;
+  color: #ffffff;
   margin: 0;
+  display: none;
 }
 
 /* Tools */
@@ -179,28 +179,14 @@ body {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background: var(--bg-secondary);
   cursor: pointer;
-  transition: background 0.2s;
-}
-
-.tool-btn:hover {
-  background: var(--accent);
-}
-
-.tool-btn.destructive {
-  color: #ff4444;
+  background-color: transparent;
 }
 
 .tool-btn img {
   width: 30px;
   height: 30px;
   object-fit: contain;
-  opacity: .7;
-}
-
-.tool-btn:hover img {
-  opacity: 1;
 }
 
 /* Small displays / TVs (max-width: 1366px) */
