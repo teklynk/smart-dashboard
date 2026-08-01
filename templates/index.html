@@ -233,7 +233,7 @@
                     `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
                 document.getElementById('icon').alt = data.weather[0].description;
                 document.getElementById('temp').textContent =
-                    `${Math.round(data.main.temp)}°${CONFIG.units === 'imperial' ? 'F' : 'C'}`;
+                    `${Math.round(data.main.temp)}°`;
                 document.getElementById('desc').textContent = data.weather[0].description;
 
                 weatherEl.style.display = '';  // Ensure visible on success
