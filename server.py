@@ -17,6 +17,9 @@ with open('weather.json') as f:
 with open('backgrounds.json') as f:
     backgrounds = json.load(f)
 
+with open('tools.json') as f:
+    tools = json.load(f)
+
 def close_existing_webapp(app_var):
     pattern = re.compile(rf"WebApp-{re.escape(app_var)}")
     try:
@@ -56,9 +59,45 @@ def close_existing_webapp(app_var):
 
     return bool(pids_to_kill)
 
-@app.route('/')
-def dashboard():
-    return render_template('index.html', apps=apps, weather=weather, backgrounds=backgrounds)
+def execute_tool(tool_id):
+    matched_tool = next((t for t in tools if t["id"] == tool_id), None)
+    if not matched_tool:
+        return jsonify({"error": "Tool not found"}), 404
+    
+    command = matched_tool["command"]
+    
+    # Note: No sudo prefix anymore based on your environment
+    try:
+        result = subprocess.run(
+            command.split(),
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        if result.returncode == 0:
+            return jsonify({
+                "status": "success", 
+                "message": matched_tool["name"]
+            })
+        else:
+            return jsonify({
+                "status": "error",
+                "message": result.stderr
+            }), 500
+            
+    except subprocess.TimeoutExpired:
+        return jsonify({"error": "Command timed out"}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/tool')
+def launch_tool():
+    tool_id = request.args.get('tool')
+    if not tool_id:
+        return jsonify({"error": "Missing tool parameter"}), 400
+    
+    return execute_tool(tool_id)
 
 @app.route('/launch')
 def launch_app():
@@ -99,6 +138,10 @@ def launch_app():
             return jsonify({"status": "app launched"})
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route('/')
+def dashboard():
+    return render_template('index.html', apps=apps, weather=weather, backgrounds=backgrounds, tools=tools)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8080)

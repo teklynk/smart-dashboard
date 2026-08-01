@@ -14,6 +14,14 @@
 <body>
     <div id="background-layer"></div>
     <div class="upper-info-bar">
+        <div class="tools-toolbar">
+            {% for tool in tools %}
+            <button class="tool-btn {% if tool.requires_confirmation %}destructive{% endif %}"
+                onclick="launchTool('{{ tool.id }}', {{ tool.requires_confirmation|lower }})" title="{{ tool.name }}">
+                <img src="/static/{{ tool.icon }}" alt="{{ tool.name }}" />
+            </button>
+            {% endfor %}
+        </div>
         <div id="clock-container">
             <p id="time">--</p>
             <p id="date">--</p>
@@ -238,6 +246,29 @@
         // Fetch immediately, then every hour
         fetchWeather();
         setInterval(fetchWeather, 3600000);
+
+        // Launch tools with confirmation for destructive actions
+        function launchTool(toolId, requiresConfirmation) {
+            if (requiresConfirmation) {
+                const confirmed = window.confirm(
+                    'Are you sure you want to perform this action?'
+                );
+                if (!confirmed) return;
+            }
+
+            fetch(`/tool?tool=${toolId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log('Tool executed successfully');
+                    } else {
+                        alert('Error: ' + (data.message || data.error));
+                    }
+                })
+                .catch(err => {
+                    alert('Request failed: ' + err);
+                });
+        }
     </script>
 </body>
 

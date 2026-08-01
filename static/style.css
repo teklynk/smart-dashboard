@@ -160,6 +160,48 @@ body {
   margin: 0;
 }
 
+/* Tools */
+.tools-toolbar {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tool-btn:hover {
+  background: var(--accent);
+}
+
+.tool-btn.destructive {
+  color: #ff4444;
+}
+
+.tool-btn img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  opacity: .7;
+}
+
+.tool-btn:hover img {
+  opacity: 1;
+}
+
 /* Small displays / TVs (max-width: 1366px) */
 @media (max-width: 1366px) {
   .app {
@@ -199,6 +241,12 @@ body {
   #weather #icon {
     width: 60px;
     height: 60px;
+  }
+
+  .tool-btn img {
+    width: 20px;
+    height: 20px;
+    padding: 0px;
   }
 }
 
@@ -279,5 +327,11 @@ body {
   #weather #icon {
     width: 160px;
     height: 160px;
+  }
+
+  .tool-btn img {
+    width: 60px;
+    height: 60px;
+    padding: 8px 24px;
   }
 }

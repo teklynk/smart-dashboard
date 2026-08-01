@@ -1,0 +1,26 @@
+[
+  {
+    "id": "shutdown",
+    "name": "Shutdown",
+    "command": "shutdown -h now",
+    "requires_confirmation": true,
+    "requires_sudo": false,
+    "icon": "icons/power-off.png"
+  },
+  {
+    "id": "restart",
+    "name": "Restart",
+    "command": "shutdown -r now",
+    "requires_confirmation": true,
+    "requires_sudo": false,
+    "icon": "icons/repeat.png"
+  },
+  {
+    "id": "settings",
+    "name": "Settings Manager",
+    "command": "xfce4-settings-manager",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/gear.png"
+  }
+]
