@@ -52,7 +52,7 @@ body {
   width: clamp(150px, 20vw, 250px);
   height: 150px;
   margin: 10px;
-  padding: 10px;
+  padding: 20px;
   background-color: #1e1e1e;
   border-radius: 12px;
   box-sizing: border-box;
@@ -206,7 +206,7 @@ body {
 /* Small displays / TVs (max-width: 1366px) */
 @media (max-width: 1366px) {
   .app {
-    width: clamp(120px, 18vw, 200px);
+    width: clamp(120px, 18vw, 150px);
     height: 120px;
     font-size: 13px;
     margin: 8px;
