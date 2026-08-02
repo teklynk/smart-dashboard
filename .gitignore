@@ -3,6 +3,7 @@ venv/
 
 apps.json
 weather.json
+tools.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
