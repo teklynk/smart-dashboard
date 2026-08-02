@@ -129,6 +129,7 @@ def launch_app():
             "--kiosk",
             "--no-first-run",
             "--noerrdialogs",
+            "--disable-context-menu",
             f"--force-device-scale-factor={scale_factor}"
         ])
         return jsonify({"status": "launched in browser"})
