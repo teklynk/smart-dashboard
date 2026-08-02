@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Terminal=true
+Terminal=false
 Name=Dashboard
-Icon=$HOME/scripts/smart-dashboard/dashboard-icon.png
+Icon=utilities-terminal
 Exec=/bin/sh -c "$HOME/scripts/smart-dashboard/run.sh"
