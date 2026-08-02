@@ -22,5 +22,21 @@
     "requires_confirmation": false,
     "requires_sudo": false,
     "icon": "icons/gear.png"
+  },
+  {
+    "id": "settings",
+    "name": "Settings Manager",
+    "command": "input-remapper-gtk",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/gamepad.png"
+  },
+  {
+    "id": "desktop",
+    "name": "Close Dashboard",
+    "command": "killall -9 brave",
+    "requires_confirmation": true,
+    "requires_sudo": false,
+    "icon": "icons/desktop.png"
   }
 ]
