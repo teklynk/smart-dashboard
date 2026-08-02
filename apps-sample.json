@@ -8,7 +8,7 @@
   {
     "name": "Jellyfin",
     "icon": "icons/jellyfin.png",
-    "command": "flatpak run org.jellyfin.JellyfinDesktop",
+    "command": "flatpak run org.jellyfin.JellyfinDesktop --fullscreen --tv",
     "force-device-scale-factor": ""
   },
   {
