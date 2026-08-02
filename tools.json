@@ -2,18 +2,10 @@
   {
     "id": "shutdown",
     "name": "Shutdown",
-    "command": "shutdown -h now",
-    "requires_confirmation": true,
+    "command": "xfce4-session-logout",
+    "requires_confirmation": false,
     "requires_sudo": false,
     "icon": "icons/power-off.png"
-  },
-  {
-    "id": "restart",
-    "name": "Restart",
-    "command": "shutdown -r now",
-    "requires_confirmation": true,
-    "requires_sudo": false,
-    "icon": "icons/repeat.png"
   },
   {
     "id": "settings",
@@ -24,8 +16,8 @@
     "icon": "icons/gear.png"
   },
   {
-    "id": "settings",
-    "name": "Settings Manager",
+    "id": "remapper",
+    "name": "Remapper",
     "command": "input-remapper-gtk",
     "requires_confirmation": false,
     "requires_sudo": false,
@@ -35,7 +27,7 @@
     "id": "desktop",
     "name": "Close Dashboard",
     "command": "killall -9 brave",
-    "requires_confirmation": true,
+    "requires_confirmation": false,
     "requires_sudo": false,
     "icon": "icons/desktop.png"
   }
