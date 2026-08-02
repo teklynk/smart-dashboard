@@ -73,3 +73,8 @@ chromium --kiosk http://localhost:8080
 If Flask is not found, ensure your virtual environment is activated before running the server.
 
 Use pip freeze > requirements.txt to update dependencies after installing new packages.
+
+```bash
+mkdir -p ~/.local/share/applications
+cp dashboard.desktop ~/.local/share/applications/
+```
