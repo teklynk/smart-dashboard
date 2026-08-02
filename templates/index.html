@@ -269,6 +269,13 @@
                     alert('Request failed: ' + err);
                 });
         }
+
+        // Confirm dialog when closing the dashboard. Helps prevent accidentally closing the dashboard with alt+f4 or the close button.
+        window.addEventListener('beforeunload', (event) => {
+            event.preventDefault();
+            event.returnValue = '';
+            return '';
+        });
     </script>
 </body>
 
