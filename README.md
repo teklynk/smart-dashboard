@@ -71,7 +71,7 @@ This project was developed and tested on:
 
 ```bash
 su -
-usermod -aG sudo YourUser
+usermod -aG sudo yourusername
 exit
 ```
 
@@ -231,6 +231,12 @@ Replace the API key with your own from [OpenWeather](https://openweathermap.org/
 Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run.sh script auto-generates backgrounds.json at startup.
 
 ## Post-Install Setup
+
+### Desktop shortcut and Application menu entry
+
+```bash
+cp dashboard.desktop ~/.local/share/applications/
+```
 
 ### Configure Auto-Login (LightDM)
 
