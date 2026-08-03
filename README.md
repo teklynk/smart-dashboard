@@ -293,7 +293,7 @@ sudo ufw allow from 192.168.0.0/24 to any proto tcp port 22
 sudo ufw enable
 ```
 
-## Troubleshooting
+## Troubleshooting & Tips
 
 ### Screen Locking on Wake
 
@@ -322,3 +322,11 @@ If you are prompted to enter your password even though auto-login is enabled:
 3. Create a new keyring named `Login` (case-sensitive) with a **blank** password
 4. Right-click it → **Set as default**
 5. Reboot - the blank-password Login keyring will auto-unlock during auto-login
+
+### Navigation
+
+**Arrow keys** will let you move through the main apps/icons. 
+
+**Tab and Shift+Tab** will let you access the Tool Bar apps/icons. 
+
+**Alt+F4** will close most apps and web apps. 
