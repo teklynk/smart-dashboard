@@ -164,6 +164,8 @@ pip install -r requirements.txt
 ./run.sh
 ```
 
+**Always Run:** You can use the `run_always.sh` script if you want the dashboard to re-open if it is closed. This will wait 3 seconds and launch the dashboard again. Great for when you absolutely do not want anyone to access to desktop.
+
 The dashboard will be available at http://localhost:8080.
 
 > run.sh handles everything: generates backgrounds.json from images in static/backgrounds/, kills any existing instances, starts the Flask server, and launches Brave in kiosk mode pointing at the dashboard.
