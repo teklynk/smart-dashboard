@@ -286,6 +286,15 @@ For a clean TV experience:
 - Set panel transparency
 - Set the panel to auto-hide
 
+### Disable Alt+Tab
+
+- Open Settings Manager.
+- Select Window Manager.
+- Click the Keyboard tab.
+- Find the Cycle windows action (often bound to <Alt>Tab). 
+- Click on the shortcut and press Backspace to clear it, or press a new key combination to remap it.
+- Click Close to save. 
+
 ### Prevent Sleep/Suspend
 
 ```bash
