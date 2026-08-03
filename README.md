@@ -234,12 +234,6 @@ Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run
 
 ## Post-Install Setup
 
-### Desktop shortcut and Application menu entry
-
-```bash
-cp dashboard.desktop ~/.local/share/applications/
-```
-
 ### Configure Auto-Login (LightDM)
 
 Edit the LightDM config:
