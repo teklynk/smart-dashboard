@@ -232,7 +232,7 @@ Replace the API key with your own from [OpenWeather](https://openweathermap.org/
 
 Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run.sh script auto-generates backgrounds.json at startup.
 
-## Post-Install Setup
+# Post-Install Setup
 
 ### Configure Auto-Login (LightDM)
 
