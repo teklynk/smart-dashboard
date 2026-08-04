@@ -336,17 +336,34 @@ If you are prompted to enter your password even though auto-login is enabled:
 
 ### Set Default Audio Device
 
+Find your audio device name
 ```bash
-pacmd list-sinks | grep -A1 index
+pactl list-sinks | grep -A1 index
 ```
-Set your default audio device
+Set your default audio device (replace with your device name)
 ```bash
-pacmd set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
+pactl set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
 ```
 Disable auto switching to other audio devices
 ```bash
-pacmd unload-module module-switch-on-port-available
+pactl unload-module module-switch-on-port-available
 ```
+
+Make the setting persist reboot:
+
+```bash
+nano ~/scripts/audio-setup.sh
+```
+
+```bash
+#!/bin/bash
+sleep 10
+pactl set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
+# Disable auto-switching via pactl
+pactl unload-module module-switch-on-port-available
+```
+
+Create a auto start application entry under Session and Startup Applications
 
 ### Navigation
 
