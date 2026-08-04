@@ -33,6 +33,16 @@ else
     echo "[]" > "$BACKGROUNDS_JSON"
 fi
 
+# --- Add some startup commands ---
+
+unclutter
+
+xset -dpms s off
+
+pacmd set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
+
+pacmd unload-module module-switch-on-port-available
+
 # --- CLEANUP: Stop existing instances ---
 
 # Kill any existing 'server.py' processes
