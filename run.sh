@@ -39,9 +39,6 @@ unclutter
 
 xset -dpms s off
 
-pacmd set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
-
-pacmd unload-module module-switch-on-port-available
 
 # --- CLEANUP: Stop existing instances ---
 
