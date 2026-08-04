@@ -33,12 +33,15 @@ else
     echo "[]" > "$BACKGROUNDS_JSON"
 fi
 
-# --- Add some startup commands ---
+# --- Startup commands (backgrounded) ---
 
-unclutter
+unclutter &
 
-xset -dpms s off
-
+# Wait for X to be ready before disabling DPMS
+for i in 1 2 3 4 5; do
+    xset -dpms s off 2>/dev/null && break
+    sleep 1
+done
 
 # --- CLEANUP: Stop existing instances ---
 
@@ -48,14 +51,12 @@ pkill -f "python.*server.py"
 # Kill any existing browser instances
 killall -9 brave 2>/dev/null
 
-sleep 1
-
 # --- STARTUP: Launch new instances ---
 
 # Execute the Python script in the background
 "$SCRIPT_DIR/venv/bin/python" "$SCRIPT_DIR/server.py" "$SCRIPT_DIR" &
 
-sleep 3
+sleep 1
 
 # Launch Browser in fullscreen
 /usr/bin/brave-origin-stable --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --noerrdialogs --disable-context-menu

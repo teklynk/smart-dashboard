@@ -10,6 +10,4 @@ pkill -f "python.*server.py"
 # Kill any existing browser instances
 killall -9 brave 2>/dev/null
 
-xset -dpms s on
-
 sleep 1
