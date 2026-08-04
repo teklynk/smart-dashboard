@@ -121,7 +121,7 @@ sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full
 openjdk-21-jre-headless git openssh-client openssh-server gparted nfs-common python3-full \
 xdotool xinput input-remapper unclutter ufw powertop v4l-utils lirc evtest onboard ffmpeg \
 smartmontools flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
-gnome-disk-utility apt-transport-https psmisc seahorse
+gnome-disk-utility apt-transport-https psmisc seahorse solaar 
 ```
 
 ### 7. Install Brave Browser
@@ -258,7 +258,7 @@ Add run.sh to XFCE's Session and Startup:
 2. Go to the Application Autostart tab
 3. Add a new entry pointing to the full path of run.sh
 
-Also consider auto-starting unclutter (hides the mouse cursor when idle).
+> `run.sh` includes `unclutter` and sets `xset -dpms s off` to prevent the display from going to sleep.
 
 ### Install the Desktop Entry
 
@@ -333,6 +333,20 @@ If you are prompted to enter your password even though auto-login is enabled:
 3. Create a new keyring named `Login` (case-sensitive) with a **blank** password
 4. Right-click it → **Set as default**
 5. Reboot - the blank-password Login keyring will auto-unlock during auto-login
+
+### Set Default Audio Device
+
+```bash
+pacmd list-sinks | grep -A1 index
+```
+Set your default audio device
+```bash
+pacmd set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
+```
+Disable auto switching to other audio devices
+```bash
+pacmd unload-module module-switch-on-port-available
+```
 
 ### Navigation
 
