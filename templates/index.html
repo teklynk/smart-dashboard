@@ -99,6 +99,32 @@
             apps.forEach(app => {
                 app.addEventListener('click', () => launchApp(app.dataset.app));
             });
+
+            // Audio click sounds
+            const focusSound = new Audio('/static/sounds/click.mp3');
+
+            // Reduce latency by preloading
+            focusSound.preload = 'auto';
+
+            const dashboard = document.querySelector('.dashboard');
+
+            if (dashboard) {
+                // Add a single 'focusin' listener to the parent
+                dashboard.addEventListener('focusin', (event) => {
+                    // Check if the focused element (or its parent) is an app
+                    const app = event.target.closest('.app');
+
+                    if (app && dashboard.contains(app)) {
+                        // Reset time to 0 to allow rapid re-triggering
+                        focusSound.currentTime = 0;
+
+                        // Play the sound
+                        focusSound.play().catch(error => {
+                            console.log("Audio play blocked by browser until user interaction:", error);
+                        });
+                    }
+                });
+            }
         });
 
         // Injected from Flask via backgrounds.json
@@ -276,7 +302,7 @@
             event.returnValue = '';
             return '';
         });
-        
+
         // Disable Right-Clicking
         document.addEventListener('contextmenu', (event) => {
             event.preventDefault();
