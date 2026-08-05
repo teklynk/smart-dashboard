@@ -27,8 +27,7 @@ If you can think of a use case, you just set the apps and tools you want, point 
 [![In Action](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot3.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot3.jpg?raw=true))
 
 ## Video Demo
-[![Watch the demo](https://thumbs.odycdn.com/600abffc536536c58d06027afdf8a0a2.webp)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
-
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
 
 ## Features
 
@@ -253,7 +252,6 @@ autologin-user-timeout=0
 ```
 
 ### Auto-Start the Dashboard
-
 Add run.sh to XFCE's Session and Startup:
 
 1. Open Settings → Session and Startup
@@ -268,6 +266,31 @@ Add run.sh to XFCE's Session and Startup:
 mkdir -p ~/.local/share/applications
 cp dashboard.desktop ~/.local/share/applications/
 ```
+
+### True Kiosk Mode Setup (optional)
+You can completely disable the desktop. If you do this you may want to use the `run_always.sh` script so that the dashboard re-opens if it is closed.
+Create a 'dummy' xfdesktop file.
+
+```bash
+sudo cp /usr/bin/xfdesktop /usr/bin/xfdesktop.real
+```
+```bash
+sudo nano /usr/bin/xfdesktop
+```
+Paste the following content:
+```bash
+#!/bin/bash
+# Fake xfdesktop script for Kiosk Mode
+# This script prevents the desktop manager from running,
+# effectively disabling the right-click menu, desktop icons, panels, applets...
+
+# Do nothing. Exit immediately.
+exit 0
+```
+```bash
+sudo chmod +x /usr/bin/xfdesktop
+```
+This does mean that you will now only be able to add apps, files via SSH. Which could be good depending on your use case.
 
 ### Configure Input Remapping
 
@@ -374,29 +397,3 @@ Create a auto start application entry under Session and Startup Applications
 **Tab and Shift+Tab** will let you access the Tool Bar apps/icons. 
 
 **Alt+F4** will close most apps and web apps. 
-
-## True Kiosk Mode Setup
-You can completely disable the desktop. If you do this you may want to use the `run_always.sh` script so that the dashboard re-opens if it is closed.
-Create a 'dummy' xfdesktop file.
-
-```bash
-sudo cp /usr/bin/xfdesktop /usr/bin/xfdesktop.real
-```
-```bash
-sudo nano /usr/bin/xfdesktop
-```
-Paste the following content:
-```bash
-#!/bin/bash
-# Fake xfdesktop script for Kiosk Mode
-# This script prevents the desktop manager from running,
-# effectively disabling the right-click menu, desktop icons, panels, applets...
-
-# Do nothing. Exit immediately.
-exit 0
-```
-```bash
-sudo chmod +x /usr/bin/xfdesktop
-```
-
-This does mean that you will now only be able to add apps, files via SSH. Which could be good depending on your use case.
