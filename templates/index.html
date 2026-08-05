@@ -45,6 +45,17 @@
         {% endfor %}
     </div>
 
+    <div id="confirm-modal" class="confirm-modal hidden">
+        <div class="confirm-modal-backdrop"></div>
+        <div class="confirm-modal-content">
+            <p id="confirm-modal-message">Are you sure?</p>
+            <div class="confirm-modal-actions">
+                <button id="confirm-modal-no">Cancel</button>
+                <button id="confirm-modal-yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function launchApp(appName) {
             fetch(`/launch?app=${encodeURIComponent(appName)}`)
@@ -295,6 +306,93 @@
                     alert('Request failed: ' + err);
                 });
         }
+
+        // Modal logic
+        let pendingToolId = null;
+        let modalKeydownHandler = null;
+        let modalFocusinHandler = null;
+
+        function showConfirmModal(message) {
+            const modal = document.getElementById('confirm-modal');
+            document.getElementById('confirm-modal-message').textContent = message;
+            modal.classList.remove('hidden');
+
+            const yes = document.getElementById('confirm-modal-yes');
+            const no = document.getElementById('confirm-modal-no');
+
+            yes.focus();
+
+            modalKeydownHandler = function (event) {
+                if (event.key !== 'Tab') return;
+
+                const focusable = [no, yes];
+                const currentIndex = focusable.indexOf(document.activeElement);
+                let nextIndex = currentIndex;
+
+                if (event.shiftKey) {
+                    nextIndex = currentIndex <= 0 ? focusable.length - 1 : currentIndex - 1;
+                } else {
+                    nextIndex = currentIndex === focusable.length - 1 ? 0 : currentIndex + 1;
+                }
+
+                focusable[nextIndex].focus();
+                event.preventDefault();
+            };
+
+            modalFocusinHandler = function (event) {
+                if (!modal.contains(event.target)) {
+                    yes.focus();
+                }
+            };
+
+            document.addEventListener('keydown', modalKeydownHandler);
+            document.addEventListener('focusin', modalFocusinHandler);
+        }
+
+        function hideConfirmModal() {
+            const modal = document.getElementById('confirm-modal');
+            modal.classList.add('hidden');
+            pendingToolId = null;
+
+            document.removeEventListener('keydown', modalKeydownHandler);
+            document.removeEventListener('focusin', modalFocusinHandler);
+            modalKeydownHandler = null;
+            modalFocusinHandler = null;
+        }
+
+        function launchTool(toolId, requiresConfirmation) {
+            if (requiresConfirmation) {
+                pendingToolId = toolId;
+                showConfirmModal('Are you sure you want to perform this action?');
+                return;
+            }
+
+            sendToolRequest(toolId);
+        }
+
+        function sendToolRequest(toolId) {
+            fetch(`/tool?tool=${toolId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log('Tool executed successfully');
+                    } else {
+                        alert('Error: ' + (data.message || data.error));
+                    }
+                })
+                .catch(err => {
+                    alert('Request failed: ' + err);
+                });
+        }
+
+        document.getElementById('confirm-modal-yes').addEventListener('click', () => {
+            if (pendingToolId) {
+                sendToolRequest(pendingToolId);
+            }
+            hideConfirmModal();
+        });
+
+        document.getElementById('confirm-modal-no').addEventListener('click', hideConfirmModal);
 
         // Confirm dialog when closing the dashboard. Helps prevent accidentally closing the dashboard with alt+f4 or the close button.
         window.addEventListener('beforeunload', (event) => {

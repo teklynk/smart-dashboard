@@ -4,6 +4,7 @@ import json
 import os
 import re
 import signal
+import shlex
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -59,45 +60,27 @@ def close_existing_webapp(app_var):
 
     return bool(pids_to_kill)
 
-def execute_tool(tool_id):
-    matched_tool = next((t for t in tools if t["id"] == tool_id), None)
-    if not matched_tool:
-        return jsonify({"error": "Tool not found"}), 404
-    
-    command = matched_tool["command"]
-    
-    # Note: No sudo prefix anymore based on your environment
-    try:
-        result = subprocess.run(
-            command.split(),
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
-        
-        if result.returncode == 0:
-            return jsonify({
-                "status": "success", 
-                "message": matched_tool["name"]
-            })
-        else:
-            return jsonify({
-                "status": "error",
-                "message": result.stderr
-            }), 500
-            
-    except subprocess.TimeoutExpired:
-        return jsonify({"error": "Command timed out"}), 500
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+def find_tool_by_id(tool_id):
+    return next((t for t in tools if t["id"] == tool_id), None)
 
-@app.route('/tool')
+@app.route("/tool")
 def launch_tool():
-    tool_id = request.args.get('tool')
-    if not tool_id:
-        return jsonify({"error": "Missing tool parameter"}), 400
-    
-    return execute_tool(tool_id)
+    tool_id = request.args.get("tool")
+    tool = find_tool_by_id(tool_id)
+    if not tool:
+        return jsonify(status="error", message="Unknown tool"), 400
+
+    command = shlex.split(tool["command"])
+    subprocess.Popen(
+        command,
+        start_new_session=True,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        close_fds=True,
+    )
+
+    return jsonify(status="success")
 
 @app.route('/launch')
 def launch_app():
