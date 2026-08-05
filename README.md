@@ -374,3 +374,29 @@ Create a auto start application entry under Session and Startup Applications
 **Tab and Shift+Tab** will let you access the Tool Bar apps/icons. 
 
 **Alt+F4** will close most apps and web apps. 
+
+## True Kiosk Mode Setup
+You can completely disable the desktop. If you do this you may want to use the `run_always.sh` script so that the dashboard re-opens if it is closed.
+Create a 'dummy' xfdesktop file.
+
+```bash
+sudo cp /usr/bin/xfdesktop /usr/bin/xfdesktop.real
+```
+```bash
+sudo nano /usr/bin/xfdesktop
+```
+Paste the following content:
+```bash
+#!/bin/bash
+# Fake xfdesktop script for Kiosk Mode
+# This script prevents the desktop manager from running,
+# effectively disabling the right-click menu, desktop icons, panels, applets...
+
+# Do nothing. Exit immediately.
+exit 0
+```
+```bash
+sudo chmod +x /usr/bin/xfdesktop
+```
+
+This does mean that you will now only be able to add apps, files via SSH. Which could be good depending on your use case.
