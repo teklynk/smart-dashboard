@@ -102,6 +102,7 @@ FallbackNTP=0.debian.pool.ntp.org ntp.ubuntu.com pool.ntp.org
 ```
 ```bash
 sudo systemctl restart systemd-timesyncd
+sudo timedatectl set-ntp true
 timedatectl status
 ```
 ### 4. Install Firmware (2011 Mac Mini Only)
