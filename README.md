@@ -316,24 +316,6 @@ Use input-remapper-gtk to map remote or keyboard buttons. Map a key to Alt+F4 so
 
 > Important: Save your preset to your home directory and set it to auto-load on login.
 
-### Configure XFCE Panel
-
-For a clean TV experience:
-
-- Remove all panels except one (XFCE requires at least one panel to exist)
-- Remove all panel applets
-- Set panel transparency
-- Set the panel to auto-hide
-
-### Disable Alt+Tab
-
-- Open Settings Manager.
-- Select Window Manager.
-- Click the Keyboard tab.
-- Find the Cycle windows action (often bound to <Alt>Tab). 
-- Click on the shortcut and press Backspace to clear it, or press a new key combination to remap it.
-- Click Close to save. 
-
 ### Prevent Sleep/Suspend
 
 ```bash
@@ -367,16 +349,6 @@ sudo ufw enable
 - Set "Built-in Audio" profile to **Digital Stereo (HDMI) Output**
 - Go to the **Output Devices** tab and set HDMI as the fallback device
 
-### Password Prompt on Auto-Login
-
-If you are prompted to enter your password even though auto-login is enabled:
-
-1. Open `seahorse` in the terminal
-2. Delete current `Login`
-3. Create a new keyring named `Login` (case-sensitive) with a **blank** password
-4. Right-click it → **Set as default**
-5. Reboot - the blank-password Login keyring will auto-unlock during auto-login
-
 ### Set Default Audio Device
 
 Find your audio device name
@@ -393,7 +365,6 @@ pactl unload-module module-switch-on-port-available
 ```
 
 Make the setting persist reboot:
-
 ```bash
 nano ~/scripts/audio-setup.sh
 ```
@@ -406,7 +377,17 @@ pactl set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
 pactl unload-module module-switch-on-port-available
 ```
 
-Create a auto start application entry under Session and Startup Applications
+Create a auto start application entry under **Session and Startup Applications**
+
+### Password Prompt on Auto-Login
+
+If you are prompted to enter your password even though auto-login is enabled:
+
+1. Open `seahorse` in the terminal
+2. Delete current `Login`
+3. Create a new keyring named `Login` (case-sensitive) with a **blank** password
+4. Right-click it → **Set as default**
+5. Reboot - the blank-password Login keyring will auto-unlock during auto-login
 
 ### Navigation
 
