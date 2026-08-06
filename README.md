@@ -267,12 +267,30 @@ mkdir -p ~/.local/share/applications
 cp dashboard.desktop ~/.local/share/applications/
 ```
 
+### Disable Panel Autostart in Session Settings
+The most reliable method is to tell the session manager explicitly not to launch the panel. 
+
+1. Open **Session and Startup** (search for it in your application menu). 
+2. Go to the **Session** tab (sometimes labeled Current Session). 
+3. Locate **xfce4-panel** in the list of running applications. 
+4. Change the **Restart Style** column for xfce4-panel to Never. 
+5. Crucial Step: **Save Session** as the default and reboot.
+
+To restore the panel, simply run `xfce4-panel` and go back to **Session and Startup > Current Session**. Set **xfce4-panel** to **Immediately** and **Save Session**.
+
+### Disable Keyboard Application Shortcuts
+
+Got to: **Settings Manager > Keyboard**. Select the **Application Shortcuts** and remove all keyboard shortcuts that you are not using. 
+
 ### True Kiosk Mode Setup (optional)
 You can completely disable the desktop. If you do this you may want to use the `run_always.sh` script so that the dashboard re-opens if it is closed.
 Create a 'dummy' xfdesktop file.
 
 ```bash
 sudo cp /usr/bin/xfdesktop /usr/bin/xfdesktop.real
+```
+```bash
+sudo rm /usr/bin/xfdesktop
 ```
 ```bash
 sudo nano /usr/bin/xfdesktop
