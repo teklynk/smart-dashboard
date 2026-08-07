@@ -16,6 +16,30 @@
     "icon": "icons/gear.png"
   },
   {
+    "id": "blueman",
+    "name": "Bluetooth Manager",
+    "command": "blueman-manager",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/bluetooth.png"
+  },
+  {
+    "id": "network",
+    "name": "Network Manager",
+    "command": "nm-connection-editor",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/wifi.png"
+  },
+  {
+    "id": "terminal",
+    "name": "Terminal",
+    "command": "xfce4-terminal",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/terminal.png"
+  },
+  {
     "id": "remapper",
     "name": "Remapper",
     "command": "input-remapper-gtk",
