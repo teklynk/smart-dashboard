@@ -95,6 +95,12 @@ def launch_app():
     command = matched_app["command"]
     app_label = matched_app["name"]
     scale_factor = matched_app.get('force-device-scale-factor', '1.0')
+    incognito_enabled = matched_app.get('incognito', False)
+
+    if isinstance(incognito_enabled, str):
+        incognito_enabled = incognito_enabled.lower() == 'true'
+    else:
+        incognito_enabled = bool(incognito_enabled)
 
     if command.startswith("http://") or command.startswith("https://"):
         close_existing_webapp(app_label)
@@ -103,7 +109,7 @@ def launch_app():
         user_data_dir = os.path.expanduser(f"~/.config/dashboard-webapp-{app_label.replace(' ', '_')}")
         os.makedirs(user_data_dir, exist_ok=True)
 
-        subprocess.Popen([
+        browser_args = [
             "/usr/bin/brave-origin-stable",
             f"--app={command}",
             f"--class=WebApp-{app_label}",
@@ -115,7 +121,13 @@ def launch_app():
             "--disable-context-menu",
             "--allow-running-insecure-content",
             f"--force-device-scale-factor={scale_factor}"
-        ])
+        ]
+
+        if incognito_enabled:
+            browser_args.append("--incognito")
+
+        subprocess.Popen(browser_args)
+        
         return jsonify({"status": "launched in browser"})
     else:
         try:
