@@ -106,6 +106,41 @@ def find_window_id(match, retries=12, interval=0.25):
     return None
 
 
+def find_window_id_by_pid(pid, retries=12, interval=0.25):
+    if not wmctrl_available() or not pid:
+        return None
+
+    pid_str = str(pid)
+    for _ in range(retries):
+        try:
+            result = subprocess.run(
+                ["wmctrl", "-lp"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return None
+
+        for line in result.stdout.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+
+            parts = line.split(None, 4)
+            if len(parts) < 5:
+                continue
+
+            window_id = parts[0]
+            window_pid = parts[2]
+            if window_pid == pid_str:
+                return window_id
+
+        time.sleep(interval)
+
+    return None
+
+
 def add_wmctrl_state(window_id, state):
     try:
         subprocess.run(
@@ -117,11 +152,15 @@ def add_wmctrl_state(window_id, state):
         return False
 
 
-def apply_window_behavior(label, fullscreen=False):
-    if not label:
+def apply_window_behavior(label=None, pid=None, fullscreen=False):
+    if not label and not pid:
         return False
 
-    window_id = find_window_id(label)
+    window_id = None
+    if label:
+        window_id = find_window_id(label)
+    if not window_id and pid:
+        window_id = find_window_id_by_pid(pid)
     if not window_id:
         return False
 
@@ -146,7 +185,7 @@ def launch_tool():
         return jsonify(status="error", message="Unknown tool"), 400
 
     command = shlex.split(tool["command"])
-    subprocess.Popen(
+    proc = subprocess.Popen(
         command,
         start_new_session=True,
         stdin=subprocess.DEVNULL,
@@ -157,6 +196,7 @@ def launch_tool():
 
     apply_window_behavior(
         tool["name"],
+        pid=proc.pid,
         fullscreen=tool.get("fullscreen", False),
     )
 
@@ -214,8 +254,8 @@ def launch_app():
         return jsonify({"status": "launched in browser"})
     else:
         try:
-            subprocess.Popen(shlex.split(command), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
-            apply_window_behavior(app_label, window_behavior["fullscreen"])
+            proc = subprocess.Popen(shlex.split(command), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
+            apply_window_behavior(app_label, pid=proc.pid, fullscreen=window_behavior["fullscreen"])
             return jsonify({"status": "app launched"})
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
