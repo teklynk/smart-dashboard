@@ -5,6 +5,8 @@ import os
 import re
 import signal
 import shlex
+import shutil
+import time
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -63,6 +65,73 @@ def close_existing_webapp(app_var):
 def find_tool_by_id(tool_id):
     return next((t for t in tools if t["id"] == tool_id), None)
 
+
+def wmctrl_available():
+    return shutil.which("wmctrl") is not None
+
+
+def find_window_id(match, retries=12, interval=0.25):
+    if not wmctrl_available() or not match:
+        return None
+
+    match = match.lower()
+    for _ in range(retries):
+        try:
+            result = subprocess.run(
+                ["wmctrl", "-lx"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return None
+
+        for line in result.stdout.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+
+            parts = line.split(None, 4)
+            if len(parts) < 5:
+                continue
+
+            window_id = parts[0]
+            window_class = parts[3].lower()
+            window_title = parts[4].lower()
+            if match in window_class or match in window_title:
+                return window_id
+
+        time.sleep(interval)
+
+    return None
+
+
+def apply_window_behavior(label, fullscreen=False, always_on_top=False):
+    if not (fullscreen or always_on_top):
+        return False
+
+    window_id = find_window_id(label)
+    if not window_id:
+        return False
+
+    state_flags = []
+    if fullscreen:
+        state_flags.append("fullscreen")
+    if always_on_top:
+        state_flags.append("above")
+
+    if not state_flags:
+        return False
+
+    try:
+        subprocess.run(
+            ["wmctrl", "-ir", window_id, "-b", f"add,{','.join(state_flags)}"],
+            check=True,
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
 @app.route("/tool")
 def launch_tool():
     tool_id = request.args.get("tool")
@@ -78,6 +147,12 @@ def launch_tool():
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         close_fds=True,
+    )
+
+    apply_window_behavior(
+        tool["name"],
+        fullscreen=tool.get("fullscreen", False),
+        always_on_top=tool.get("always_on_top", False),
     )
 
     return jsonify(status="success")
@@ -101,6 +176,11 @@ def launch_app():
         incognito_enabled = incognito_enabled.lower() == 'true'
     else:
         incognito_enabled = bool(incognito_enabled)
+
+    window_behavior = {
+        "fullscreen": matched_app.get("fullscreen", False),
+        "always_on_top": matched_app.get("always_on_top", False),
+    }
 
     if command.startswith("http://") or command.startswith("https://"):
         close_existing_webapp(app_label)
@@ -127,11 +207,11 @@ def launch_app():
             browser_args.append("--incognito")
 
         subprocess.Popen(browser_args)
-        
         return jsonify({"status": "launched in browser"})
     else:
         try:
-            subprocess.Popen(command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen(shlex.split(command), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
+            apply_window_behavior(app_label, window_behavior["fullscreen"], window_behavior["always_on_top"])
             return jsonify({"status": "app launched"})
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500

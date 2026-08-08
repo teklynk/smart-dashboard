@@ -331,8 +331,15 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 ### Configure Firewall
 
 ```bash
-sudo ufw allow from 192.168.0.0/24 to any proto tcp port 22
+sudo ufw allow from 192.168.0.0/24 to any proto tcp port 22 comment "Internal - SSH"
 sudo ufw enable
+```
+
+Additional Firewall Rules to consider:
+```bash
+sudo ufw allow from 192.168.0.0/24 to any proto tcp port 53317 comment "Internal - LocalSend"
+sudo ufw allow from 192.168.0.0/24 to any proto udp port 53317 comment "Internal - LocalSend"
+sudo ufw reload
 ```
 
 ## Troubleshooting & Tips
