@@ -106,6 +106,17 @@ def find_window_id(match, retries=12, interval=0.25):
     return None
 
 
+def add_wmctrl_state(window_id, state):
+    try:
+        subprocess.run(
+            ["wmctrl", "-ir", window_id, "-b", f"add,{state}"],
+            check=True,
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
 def apply_window_behavior(label, fullscreen=False):
     if not label:
         return False
@@ -114,18 +125,18 @@ def apply_window_behavior(label, fullscreen=False):
     if not window_id:
         return False
 
-    state_flags = ["above"]
-    if fullscreen:
-        state_flags.append("fullscreen")
+    applied = False
+    if add_wmctrl_state(window_id, "above"):
+        applied = True
 
-    try:
-        subprocess.run(
-            ["wmctrl", "-ir", window_id, "-b", f"add,{','.join(state_flags)}"],
-            check=True,
-        )
-        return True
-    except subprocess.CalledProcessError:
-        return False
+    if fullscreen:
+        if add_wmctrl_state(window_id, "fullscreen"):
+            applied = True
+        else:
+            if add_wmctrl_state(window_id, "maximized_vert,maximized_horz"):
+                applied = True
+
+    return applied
 
 @app.route("/tool")
 def launch_tool():
