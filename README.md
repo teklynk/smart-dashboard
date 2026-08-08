@@ -123,8 +123,13 @@ sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full
 openjdk-21-jre-headless git openssh-client openssh-server gparted nfs-common python3-full \
 xdotool xinput input-remapper unclutter ufw powertop v4l-utils lirc evtest onboard ffmpeg \
 smartmontools flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
-gnome-disk-utility apt-transport-https psmisc seahorse solaar 
+gnome-disk-utility apt-transport-https psmisc seahorse solaar wmctrl mpv
 ```
+> You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
+
+> You can use `mpv` to open a RTSP video stream (security camera) from the command line. mpv has a `--fullscreen` flag option: `mpv --fullscreen rtsp://user:pass@192.168.0.XX:XXXX/unicast`
+
+> You can use `xdotool` to perform window actions: `gparted & sleep 1 && xdotool search --name "/dev/sda - GParted" --limit 1 windowactivate --sync windowstate --add fullscreen above`
 
 ### 7. Install Brave Browser
 ```bash
