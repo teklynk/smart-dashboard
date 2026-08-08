@@ -4,48 +4,55 @@
     "icon": "icons/plex.png",
     "command": "flatpak run tv.plex.PlexHTPC",
     "force-device-scale-factor": "",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "Jellyfin",
     "icon": "icons/jellyfin.png",
     "command": "flatpak run org.jellyfin.JellyfinDesktop --fullscreen --tv",
     "force-device-scale-factor": "",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "Kodi",
     "icon": "icons/kodi.png",
     "command": "flatpak run tv.kodi.Kodi",
     "force-device-scale-factor": "",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "YouTube",
     "icon": "icons/youtube.png",
     "command": "flatpak run rocks.shy.VacuumTube --fullscreen",
     "force-device-scale-factor": "",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "Twitch",
     "icon": "icons/twitch.png",
     "command": "https://twitchmultiview.teklynk.com",
     "force-device-scale-factor": "1.25",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "RetroAssembly",
     "icon": "icons/retroassembly.png",
     "command": "http://192.168.0.40:8088",
     "force-device-scale-factor": "1.25",
-    "incognito": false
+    "incognito": false,
+    "fullscreen": false
   },
   {
     "name": "BraveIncognito",
     "icon": "icons/brave-incognito.png",
     "command": "https://search.brave.com",
     "force-device-scale-factor": "1.25",
-    "incognito": true
+    "incognito": true,
+    "fullscreen": false
   }
 ]

@@ -5,7 +5,8 @@
     "command": "xfce4-session-logout",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/power-off.png"
+    "icon": "icons/power-off.png",
+    "fullscreen": false
   },
   {
     "id": "settings",
@@ -13,7 +14,8 @@
     "command": "xfce4-settings-manager",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/gear.png"
+    "icon": "icons/gear.png",
+    "fullscreen": false
   },
   {
     "id": "blueman",
@@ -21,7 +23,8 @@
     "command": "blueman-manager",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/bluetooth.png"
+    "icon": "icons/bluetooth.png",
+    "fullscreen": false
   },
   {
     "id": "network",
@@ -29,7 +32,8 @@
     "command": "nm-connection-editor",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/wifi.png"
+    "icon": "icons/wifi.png",
+    "fullscreen": false
   },
   {
     "id": "terminal",
@@ -37,7 +41,8 @@
     "command": "xfce4-terminal",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/terminal.png"
+    "icon": "icons/terminal.png",
+    "fullscreen": false
   },
   {
     "id": "remapper",
@@ -45,7 +50,8 @@
     "command": "input-remapper-gtk",
     "requires_confirmation": false,
     "requires_sudo": false,
-    "icon": "icons/gamepad.png"
+    "icon": "icons/gamepad.png",
+    "fullscreen": false
   },
   {
     "id": "desktop",
@@ -53,6 +59,7 @@
     "command": "killall -9 brave",
     "requires_confirmation": true,
     "requires_sudo": false,
-    "icon": "icons/desktop.png"
+    "icon": "icons/desktop.png",
+    "fullscreen": false
   }
 ]

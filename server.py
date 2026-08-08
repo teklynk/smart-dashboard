@@ -106,22 +106,17 @@ def find_window_id(match, retries=12, interval=0.25):
     return None
 
 
-def apply_window_behavior(label, fullscreen=False, always_on_top=False):
-    if not (fullscreen or always_on_top):
+def apply_window_behavior(label, fullscreen=False):
+    if not label:
         return False
 
     window_id = find_window_id(label)
     if not window_id:
         return False
 
-    state_flags = []
+    state_flags = ["above"]
     if fullscreen:
         state_flags.append("fullscreen")
-    if always_on_top:
-        state_flags.append("above")
-
-    if not state_flags:
-        return False
 
     try:
         subprocess.run(
@@ -152,7 +147,6 @@ def launch_tool():
     apply_window_behavior(
         tool["name"],
         fullscreen=tool.get("fullscreen", False),
-        always_on_top=tool.get("always_on_top", False),
     )
 
     return jsonify(status="success")
@@ -179,7 +173,6 @@ def launch_app():
 
     window_behavior = {
         "fullscreen": matched_app.get("fullscreen", False),
-        "always_on_top": matched_app.get("always_on_top", False),
     }
 
     if command.startswith("http://") or command.startswith("https://"):
@@ -211,7 +204,7 @@ def launch_app():
     else:
         try:
             subprocess.Popen(shlex.split(command), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
-            apply_window_behavior(app_label, window_behavior["fullscreen"], window_behavior["always_on_top"])
+            apply_window_behavior(app_label, window_behavior["fullscreen"])
             return jsonify({"status": "app launched"})
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
