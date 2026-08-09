@@ -70,7 +70,7 @@ def wmctrl_available():
     return shutil.which("wmctrl") is not None
 
 
-def find_window_id(match, retries=12, interval=0.25):
+def find_window_id(match, retries=20, interval=0.1):
     if not wmctrl_available() or not match:
         return None
 
@@ -106,7 +106,7 @@ def find_window_id(match, retries=12, interval=0.25):
     return None
 
 
-def find_window_id_by_pid(pid, retries=12, interval=0.25):
+def find_window_id_by_pid(pid, retries=20, interval=0.1):
     if not wmctrl_available() or not pid:
         return None
 
@@ -141,15 +141,17 @@ def find_window_id_by_pid(pid, retries=12, interval=0.25):
     return None
 
 
-def add_wmctrl_state(window_id, state):
-    try:
-        subprocess.run(
-            ["wmctrl", "-ir", window_id, "-b", f"add,{state}"],
-            check=True,
-        )
-        return True
-    except subprocess.CalledProcessError:
-        return False
+def add_wmctrl_state(window_id, state, retries=5, interval=0.05):
+    for _ in range(retries):
+        try:
+            subprocess.run(
+                ["wmctrl", "-ir", window_id, "-b", f"add,{state}"],
+                check=True,
+            )
+            return True
+        except subprocess.CalledProcessError:
+            time.sleep(interval)
+    return False
 
 
 def apply_window_behavior(label=None, pid=None, fullscreen=False):
