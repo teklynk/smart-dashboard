@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, abort
 import subprocess
 import json
 import os
@@ -9,6 +9,8 @@ import shutil
 import time
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+
+LOCAL_IPS = {"127.0.0.1", "::1"}
 
 # Load app configs
 with open('apps.json') as f:
@@ -178,6 +180,11 @@ def apply_window_behavior(label=None, pid=None, fullscreen=False):
                 applied = True
 
     return applied
+
+@app.before_request
+def limit_remote_addr():
+    if request.remote_addr not in LOCAL_IPS:
+        abort(403)
 
 @app.route("/tool")
 def launch_tool():
