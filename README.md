@@ -189,6 +189,8 @@ Defines the apps shown on the dashboard. Each entry includes:
 | icon | Path to the icon image |
 | command | Flatpak command for desktop apps, or a URL for web apps |
 | force-device-scale-factor | Browser zoom factor for web apps (e.g. 1.25) |
+| incognito | opens the web app in incognito mode |
+| fullscreen | forces the app/tool to open fullscreen (requires `wmctrl`). Does not apply to web apps |
 
 **Desktop app example:**
 
@@ -197,7 +199,9 @@ Defines the apps shown on the dashboard. Each entry includes:
   "name": "Plex",
   "icon": "icons/plex.png",
   "command": "flatpak run tv.plex.PlexHTPC",
-  "force-device-scale-factor": ""
+  "force-device-scale-factor": "",
+  "incognito": false,
+  "fullscreen": false
 }
 ```
 
@@ -208,7 +212,8 @@ Defines the apps shown on the dashboard. Each entry includes:
   "name": "Twitch",
   "icon": "icons/twitch.png",
   "command": "https://twitchmultiview.teklynk.com",
-  "force-device-scale-factor": "1.25"
+  "force-device-scale-factor": "1.25",
+  "fullscreen": false
 }
 ```
 ### tools.json
@@ -223,6 +228,7 @@ Defines quick-action tools accessible from the dashboard. Fields:
 | requires_confirmation | Whether the frontend should confirm before running |
 | requires_sudo | (Currently informational; sudo is not prefixed) |
 | icon | Path to the icon image |
+| fullscreen | forces the app/tool to open fullscreen (requires `wmctrl`). Does not apply to web apps |
 
 ### weather.json
 
