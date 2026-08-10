@@ -24,10 +24,10 @@ Smart Dashboard is flexible enough for many scenarios:
 
 If you can think of a use case, you just set the apps and tools you want, point it at the URLs or Flatpak apps you need, and let it run.
 
-[![In Action](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot3.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot3.jpg?raw=true))
+[![In Action](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot3.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot3.jpg?raw=true))
 
 ## Video Demo
-[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
 
 ## Features
 
@@ -108,8 +108,11 @@ timedatectl status
 ### 4. Install Firmware (2011 Mac Mini Only)
 
 ```bash
-sudo apt install -y firmware-b43-installer
+sudo apt install -y firmware-b43-installer 
+
+sudo apt install mbpfan
 ```
+> `mbpfan` is a fan control daemon that works with older macbooks, imac and mac mini
 
 ### 5. Install Bluetooth
 ```bash
@@ -140,6 +143,7 @@ curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh
 ```bash
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
+
 ### 9. Install Flatpak Apps
 ```bash
 flatpak install --user flathub -y \
@@ -150,6 +154,7 @@ flatpak install --user flathub -y \
     tv.plex.PlexHTPC \
     org.jellyfin.JellyfinDesktop
 ```
+
 ### 10. Install FLIRC (IR Remote Support)
 ```bash
 curl apt.flirc.tv/install.sh | sudo bash
@@ -166,7 +171,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 12. Run the Dashboard
+### 12. JSON config files
+
+Rename `apps-sample.json`, `tools-sample.json` and `weather-sample.json` to `apps.json`, `tools.json`, `weather.json`
+
+### 13. Run the Dashboard
 ```bash
 ./run.sh
 ```
@@ -175,7 +184,7 @@ pip install -r requirements.txt
 
 The dashboard will be available at http://localhost:8080.
 
-> run.sh handles everything: generates backgrounds.json from images in static/backgrounds/, kills any existing instances, starts the Flask server, and launches Brave in kiosk mode pointing at the dashboard.
+> `run.sh` handles everything: generates backgrounds.json from images in static/backgrounds/, kills any existing instances, starts the Flask server, and launches Brave in kiosk mode pointing at the dashboard.
 
 ## Configuration
 
@@ -229,6 +238,27 @@ Defines quick-action tools accessible from the dashboard. Fields:
 | requires_sudo | (Currently informational; sudo is not prefixed) |
 | icon | Path to the icon image |
 | fullscreen | forces the app/tool to open fullscreen (requires `wmctrl`). Does not apply to web apps |
+
+```bash
+  {
+    "id": "shutdown",
+    "name": "Shutdown",
+    "command": "xfce4-session-logout",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/power-off.png",
+    "fullscreen": false
+  },
+  {
+    "id": "settings",
+    "name": "Settings Manager",
+    "command": "xfce4-settings-manager",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/gear.png",
+    "fullscreen": false
+  }
+```
 
 ### weather.json
 
@@ -415,3 +445,9 @@ If you are prompted to enter your password even though auto-login is enabled:
 **Tab and Shift+Tab** will let you access the Tool Bar apps/icons. 
 
 **Alt+F4** will close most apps and web apps. 
+
+**MX3 Pro Mini Keyboard Backlight Fly Remote Mouse**
+
+These are the key mappings that I set using input-remapper
+
+[![MX3 Pro Remote](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/mx3-pro-remote-key-map.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/mx3-pro-remote-key-map.jpg?raw=true))
