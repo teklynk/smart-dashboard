@@ -24,7 +24,7 @@ Smart Dashboard is flexible enough for many scenarios:
 
 If you can think of a use case, you just set the apps and tools you want, point it at the URLs or Flatpak apps you need, and let it run.
 
-[![In Action](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot3.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot3.jpg?raw=true))
+[![In Action](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true))
 
 ## Video Demo
 [![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
