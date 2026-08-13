@@ -111,6 +111,11 @@ timedatectl status
 sudo apt install -y firmware-b43-installer 
 
 sudo apt install mbpfan
+
+sudo systemctl enable mbpfan.service
+sudo systemctl daemon-reload
+sudo systemctl start mbpfan.service
+sudo systemctl status mbpfan.service
 ```
 > `mbpfan` is a fan control daemon that works with older macbooks, imac and mac mini
 
