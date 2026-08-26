@@ -1,4 +1,6 @@
-## Installation
+## Installation Openbox on Debian
+
+This will help you get Openbox installed, auto login and the Smart-Dashboard up and running.
 
 ### Add user to sudoers group
 
@@ -49,18 +51,6 @@ Create the config directory (if it doesn't exist):
 mkdir -p ~/.config/openbox
 ```
 
-Copy the default config (if you haven't already):
-```bash
-cp /etc/xdg/openbox/rc.xml ~/.config/openbox/
-```
-
-Edit the config to force fullscreen and Alt+F4:
-```bash
-nano ~/.config/openbox/rc.xml
-```
-- Add the <keybind key="A-F4"> block inside <keyboard>.
-- Add the <application name="default"> block inside <applications>.
-
 ### Configure Auto-Login with LightDM
 To make the system boot directly into Openbox without asking for a password:
 
@@ -102,6 +92,7 @@ curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh
 ```bash
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
+
 ### Install Flatpak Apps
 ```bash
 flatpak install --user flathub -y \
@@ -133,11 +124,17 @@ Rename `apps-sample.json`, `tools-sample.json` and `weather-sample.json` to `app
 ./run.sh
 ```
 
-Edit: ~/.config/openbox/autostart
 ### Autostart
 ```bash
-# ~/.config/openbox/autostart
+nano ~/.config/openbox/autostart
+```
 
-sh /home/user/scripts/smart-dashboard/run_always.sh &
+```bash
+#!/bin/bash
+bash /home/user/scripts/smart-dashboard/run_always.sh &
 
+```
+
+```bash
+chmod +x ~/.config/openbox/autostart
 ```
