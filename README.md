@@ -68,6 +68,8 @@ This project was developed and tested on:
 
 ## Installation
 
+These instructions are for **XFCE**. You can also use **OpenBox** on top of the Debian base install. ( [instructions here](https://github.com/teklynk/smart-dashboard/blob/main/openbox_install_instructions.md) )
+
 ### 1. Add user to sudoers group
 
 ```bash
@@ -128,10 +130,10 @@ sudo systemctl enable --now bluetooth
 ### 6. Install Core Packages
 ```bash
 sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full python3-pip \
-openjdk-21-jre-headless git openssh-client openssh-server gparted nfs-common python3-full \
-xdotool xinput input-remapper unclutter ufw powertop v4l-utils lirc evtest onboard ffmpeg \
+openjdk-21-jre-headless git openssh-client openssh-server gparted nfs-common \
+xdotool xinput input-remapper input-remapper-gtk unclutter ufw powertop v4l-utils lirc evtest onboard ffmpeg \
 smartmontools flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
-gnome-disk-utility apt-transport-https psmisc seahorse solaar wmctrl mpv
+gnome-disk-utility apt-transport-https psmisc seahorse wmctrl mpv
 ```
 > You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
 
