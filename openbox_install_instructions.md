@@ -77,10 +77,10 @@ sudo systemctl enable --now bluetooth
 
 ### Install Core Packages
 ```bash
-sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full python3-pip \
+sudo apt install -y net-tools pavucontrol curl wget python3-full python3-pip \
 openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
-xdotool xinput input-remapper input-remapper-gtk unclutter ufw v4l-utils ffmpeg \
-smartmontools flatpak gnome-disk-utility apt-transport-https psmisc wmctrl mpv
+xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw v4l-utils ffmpeg \
+flatpak apt-transport-https psmisc wmctrl mpv
 ```
 
 ### Install Brave Browser
@@ -137,4 +137,93 @@ bash /home/user/scripts/smart-dashboard/run_always.sh &
 
 ```bash
 chmod +x ~/.config/openbox/autostart
+```
+
+### Notes And Optional Configurations
+
+Disable password for sudo: This helps to launch apps and tools that require a sudo password.
+
+```bash
+sudo nano /etc/sudoers.d/openbox-nopasswd
+```
+
+```bash
+yourusername ALL=(ALL) NOPASSWD: ALL
+```
+
+Disable all keyboard shortcuts, hotkeys and the desktop menu. (Everything except for Alt-F4)
+Backup `~/.config/openbox/rc.xml`
+
+```bash
+mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.bkup
+```
+
+```bash
+nano ~/.config/openbox/rc.xml
+```
+
+```bash
+<openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <keyboard noremap="yes">
+    <chainkeykey>C-g</chainkeykey>
+    <keybind key="A-F4">
+      <action name="Close"/>
+    </keybind>
+  </keyboard>
+</openbox_config>
+```
+
+```bash
+openbox --reconfigure
+```
+
+Openbox: **tools.json** (example)
+
+```json
+[
+  {
+    "id": "blueman",
+    "name": "Bluetooth Manager",
+    "command": "blueman-manager",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/bluetooth.png",
+    "fullscreen": true
+  },
+  {
+    "id": "pavucontrol",
+    "name": "PulseAudioControl",
+    "command": "pavucontrol",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/volume-up.png",
+    "fullscreen": true
+  },
+  {
+    "id": "terminal",
+    "name": "Terminal",
+    "command": "tilix --full-screen",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/terminal.png",
+    "fullscreen": true
+  },
+  {
+    "id": "remapper",
+    "name": "Remapper",
+    "command": "sudo input-remapper-gtk",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/gamepad.png",
+    "fullscreen": false
+  },
+  {
+    "id": "desktop",
+    "name": "Close Dashboard",
+    "command": "killall -9 brave",
+    "requires_confirmation": true,
+    "requires_sudo": false,
+    "icon": "icons/desktop.png",
+    "fullscreen": false
+  }
 ```
