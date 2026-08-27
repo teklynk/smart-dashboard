@@ -82,7 +82,7 @@ sudo systemctl enable --now bluetooth
 sudo apt install -y net-tools pavucontrol curl wget python3-full python3-pip \
 openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
 xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw v4l-utils ffmpeg \
-flatpak apt-transport-https psmisc wmctrl mpv
+flatpak apt-transport-https psmisc wmctrl mpv tilix
 ```
 
 ### Install Brave Browser
@@ -222,7 +222,7 @@ Openbox: **tools.json** (example)
   {
     "id": "desktop",
     "name": "Close Dashboard",
-    "command": "killall -9 brave",
+    "command": "/home/yourusername/scripts/smart-dashboard/run_close.sh",
     "requires_confirmation": true,
     "requires_sudo": false,
     "icon": "icons/desktop.png",

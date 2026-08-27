@@ -60,10 +60,10 @@ sudo systemctl enable --now bluetooth
 ### 6. Install Core Packages
 ```bash
 sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full python3-pip \
-openjdk-21-jre-headless git openssh-client openssh-server gparted nfs-common \
-xdotool xinput input-remapper input-remapper-gtk unclutter ufw powertop v4l-utils lirc evtest onboard ffmpeg \
+openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
+xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw powertop v4l-utils onboard ffmpeg \
 smartmontools flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
-gnome-disk-utility apt-transport-https psmisc seahorse wmctrl mpv
+apt-transport-https psmisc seahorse wmctrl mpv tilix
 ```
 > You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
 
@@ -374,3 +374,14 @@ If you are prompted to enter your password even though auto-login is enabled:
 3. Create a new keyring named `Login` (case-sensitive) with a **blank** password
 4. Right-click it → **Set as default**
 5. Reboot - the blank-password Login keyring will auto-unlock during auto-login
+
+### Notes And Optional Configurations
+
+Disable password for sudo: This helps to launch apps and tools that require a sudo password.
+
+```bash
+sudo nano /etc/sudoers.d/xfce-nopasswd
+```
+
+```bash
+yourusername ALL=(ALL) NOPASSWD: ALL
