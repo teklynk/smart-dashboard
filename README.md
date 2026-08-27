@@ -26,18 +26,21 @@ If you can think of a use case, you just set the apps and tools you want, point 
 
 [![In Action](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true))
 
-## Video Demo
+## Video Demo (Debian & Openbox)
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot5.jpg?raw=true)](https://odysee.com/@teklynk:c/Smart-Dashboard-Debian-Openbox:1?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+
+## Video Demo (Debian & XFCE)
 [![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
 
 ## Features
 
-- **App Launcher** - Click icons to launch Flatpak desktop apps (Plex, Jellyfin, Kodi, YouTube) or web apps (Twitch, custom URLs) that open as standalone kiosk windows via Brave
+- **App Launcher** - Click icons to launch Flatpak desktop apps (PlexHTPC Edition, Jellyfin Desktop, Kodi, VacuumTube (VacuumTube is an unofficial wrapper of the Smart TV version of YouTube)) or web apps (Twitch, custom URLs) that open as standalone kiosk windows via Brave
 - **Web App Management** - Web apps launch in their own Brave instance with a unique window class, allowing the dashboard to cleanly close one web app before opening another
 - **Tools Panel** - Quick access to system actions: Shutdown, Settings Manager, Input Remapper, and Close Dashboard
 - **Wallpaper Rotation** - Automatically scans static/backgrounds/ for images and generates backgrounds.json at startup
 - **Weather Widget** - Displays local weather using the OpenWeather API
 - **Kiosk Mode** - The dashboard itself runs fullscreen in Brave kiosk mode, giving it the look and feel of a native smart TV interface
-- **Remote Friendly** - Designed to work with FLIRC and input-remapper for IR remote or keyboard control; map a key to Alt+F4 to close web apps
+- **Remote Friendly** - Works with the MX3 Pro Mini Keyboard Backlight Fly Remote Mouse; map a key to Alt+F4 to close web apps
 
 ## How It Works
 The UI runs in a web browser and uses Python and Flask to route
@@ -64,15 +67,14 @@ This project was developed and tested on:
 - **Desktop Environment:** XFCE4 or OpenBox
 - **Display Manager:** LightDM
 - **Browser:** Brave (Origin flavor)
-- **Target Hardware:** 2011 Mac Mini (Intel HD 4000) - but should work on most Debian setups
 
 ## Installation
 
 You can use **OpenBox** or **XFCE** on top of the base install of Debian. 
 
-( [XFCE instructions](https://github.com/teklynk/smart-dashboard/blob/main/xfce_install_instructions.md) )
+([OpenBox instructions](https://github.com/teklynk/smart-dashboard/blob/main/openbox_install_instructions.md)) - Very minimal and light-weight. Window manager and compositor.
 
-( [OpenBox instructions](https://github.com/teklynk/smart-dashboard/blob/main/openbox_install_instructions.md) )
+([XFCE instructions](https://github.com/teklynk/smart-dashboard/blob/main/xfce_install_instructions.md)) - Has full desktop capabilities and experience. Great for if you want to switch to a different user and a full desktop environment.
 
 
 ### Navigation
