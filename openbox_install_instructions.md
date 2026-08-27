@@ -2,6 +2,8 @@
 
 This will help you get Openbox installed, auto login and the Smart-Dashboard up and running.
 
+**Install Debian and uncheck all desktop environments. Only check SSH Server and System Essentials.**
+
 ### Add user to sudoers group
 
 ```bash
