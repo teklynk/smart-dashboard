@@ -95,8 +95,9 @@ These optional tools extend Smart Dashboard further:
 - **uxplay** — Mirror iPhone/iPad to Linux
 - **RetroDECK** — Retro gaming platform manager
 - **Docker** — Run local web services/apps
-- **Video Conferencing** — Webcam integration with talk.brave.com
+- **Video Conferencing** — Webcam integration with talk.brave.com, zoom, jitsi
 - **caldera-music** — Multi-room music (Plexamp alternative)
+- **onboard** — On-screen keyboard (It features auto-show functionality when text input fields are focused)
 
 ## Demos
 
