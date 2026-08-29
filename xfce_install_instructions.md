@@ -1,20 +1,37 @@
 ## Installation XFCE on Debian
 
-### 1. Add user to sudoers group
+This will help you get XFCE configured, auto login and the Smart-Dashboard up and running.
+
+**Install Debian and check XFCE. Uncheck all other desktop environments. Check SSH Server and System Essentials.**
+
+### SSH into Debian
+
+Once the install finishes and you have rebooted, you can now log in from the prompt and find your IP address.
+
+```bash
+ip address
+```
+
+From this point on, you can SSH into Debian from another PC using the IP address of your Debian install. This will make copy and paste commands easier. `ssh your_username@ipaddress` Once you are in you can proceed with the rest of the instructions.
+
+### Add user to sudoers group
 
 ```bash
 su -
-usermod -aG sudo yourusername
+usermod -aG sudo your_username
 exit
 ```
 
-### 2. Enable Non-Free Repositories
+Log off completely and ssh back into Debian. You should now be able to run sudo commands.
+
+### Enable Non-Free Repositories
 
 ```bash
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
 sudo nano /etc/apt/sources.list
 ```
-Add contrib non-free non-free-firmware to each line:
+
+Comment out all lines in `/etc/apt/sources.list` and add the lines to the bottom OR simply add `contrib non-free non-free-firmware` to each line:
 
 ```bash
 deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
@@ -22,22 +39,25 @@ deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-f
 deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
 ```
 
-### 3. Fix Time Sync (Crucial for apt update)
+### Fix Time Sync (Crucial for apt update)
 
 ```bash
 sudo apt install systemd-timesyncd
 sudo nano /etc/systemd/timesyncd.conf
 ```
+
 ```bash
 NTP=time.cloudflare.com
 FallbackNTP=0.debian.pool.ntp.org ntp.ubuntu.com pool.ntp.org
 ```
+
 ```bash
 sudo systemctl restart systemd-timesyncd
 sudo timedatectl set-ntp true
 timedatectl status
 ```
-### 4. Install Firmware (2011 Mac Mini Only)
+
+### Install Firmware (2011 Mac Mini Only)
 
 ```bash
 sudo apt install -y firmware-b43-installer 
@@ -51,18 +71,18 @@ sudo systemctl status mbpfan.service
 ```
 > `mbpfan` is a fan control daemon that works with older macbooks, imac and mac mini
 
-### 5. Install Bluetooth
+### Install Bluetooth
 ```bash
 sudo apt install bluez blueman
 sudo systemctl enable --now bluetooth
 ```
 
-### 6. Install Core Packages
+### Install Core Packages
 ```bash
 sudo apt install -y net-tools network-manager pavucontrol curl wget python3-full python3-pip \
 openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
-xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw powertop v4l-utils onboard ffmpeg \
-smartmontools flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
+xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw v4l-utils ffmpeg \
+flatpak lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
 apt-transport-https psmisc seahorse wmctrl mpv tilix
 ```
 > You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
@@ -71,17 +91,20 @@ apt-transport-https psmisc seahorse wmctrl mpv tilix
 
 > You can use `xdotool` to perform window actions: `gparted & sleep 1 && xdotool search --name "/dev/sda - GParted" --limit 1 windowactivate --sync windowstate --add fullscreen above`
 
-### 7. Install Brave Browser
+### Install Brave Browser
+
 ```bash
 curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh
 ```
 
-### 8. Set Up Flatpak
+### Set Up Flatpak
+
 ```bash
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
-### 9. Install Flatpak Apps
+### Install Flatpak Apps
+
 ```bash
 flatpak install --user flathub -y \
     com.github.tchx84.Flatseal \
@@ -92,12 +115,8 @@ flatpak install --user flathub -y \
     org.jellyfin.JellyfinDesktop
 ```
 
-### 10. Install FLIRC (IR Remote Support)
-```bash
-curl apt.flirc.tv/install.sh | sudo bash
-```
+### Clone and Set Up the Dashboard
 
-### 11. Clone and Set Up the Dashboard
 ```bash
 mkdir ~/scripts
 cd ~/scripts
@@ -108,11 +127,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 12. JSON config files
+### JSON config files
 
 Rename `apps-sample.json`, `tools-sample.json` and `weather-sample.json` to `apps.json`, `tools.json`, `weather.json`
 
-### 13. Run the Dashboard
+### Run the Dashboard
+
 ```bash
 ./run.sh
 ```
@@ -162,6 +182,7 @@ Defines the apps shown on the dashboard. Each entry includes:
   "fullscreen": false
 }
 ```
+
 ### tools.json
 
 Defines quick-action tools accessible from the dashboard. Fields:
@@ -206,7 +227,7 @@ Defines quick-action tools accessible from the dashboard. Fields:
   "units": "imperial"
 }
 ```
-Replace the API key with your own from [OpenWeather](https://openweathermap.org/api).
+> Replace the API key with your own from [OpenWeather](https://openweathermap.org/api).
 
 ## Backgrounds
 
@@ -214,20 +235,24 @@ Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run
 
 # Post-Install Setup
 
-### Configure Auto-Login (LightDM)
+### Configure Auto-Login with LightDM
 
-Edit the LightDM config:
+To make the system boot directly into XFCE without asking for a password:
 
 ```bash
 sudo nano /etc/lightdm/lightdm.conf
 ```
-
-Under [Seat:*], set:
+Find `[Seat:*]`, and add these lines. Replace your_username with your actual user name.
 
 ```bash
 [Seat:*]
-autologin-user=yourusername
+autologin-user=your_username
 autologin-user-timeout=0
+```
+
+```bash
+sudo systemctl enable lightdm
+sudo systemctl start lightdm
 ```
 
 ### Auto-Start the Dashboard
@@ -301,20 +326,6 @@ Use input-remapper-gtk to map remote or keyboard buttons. Map a key to Alt+F4 so
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ```
 
-### Configure Firewall
-
-```bash
-sudo ufw allow from 192.168.0.0/24 to any proto tcp port 22 comment "Internal - SSH"
-sudo ufw enable
-```
-
-Additional Firewall Rules to consider:
-```bash
-sudo ufw allow from 192.168.0.0/24 to any proto tcp port 53317 comment "Internal - LocalSend"
-sudo ufw allow from 192.168.0.0/24 to any proto udp port 53317 comment "Internal - LocalSend"
-sudo ufw reload
-```
-
 ## Troubleshooting & Tips
 
 ### Screen Locking on Wake
@@ -335,36 +346,6 @@ sudo ufw reload
 - Set "Built-in Audio" profile to **Digital Stereo (HDMI) Output**
 - Go to the **Output Devices** tab and set HDMI as the fallback device
 
-### Set Default Audio Device
-
-Find your audio device name
-```bash
-pactl list-sinks | grep -A1 index
-```
-Set your default audio device (replace with your device name)
-```bash
-pactl set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
-```
-Disable auto switching to other audio devices
-```bash
-pactl unload-module module-switch-on-port-available
-```
-
-Make the setting persist reboot:
-```bash
-nano ~/scripts/audio-setup.sh
-```
-
-```bash
-#!/bin/bash
-sleep 10
-pactl set-default-sink alsa_output.pci-0000_00_1b.0.hdmi-stereo
-# Disable auto-switching via pactl
-pactl unload-module module-switch-on-port-available
-```
-
-Create a auto start application entry under **Session and Startup Applications**
-
 ### Password Prompt on Auto-Login
 
 If you are prompted to enter your password even though auto-login is enabled:
@@ -384,4 +365,4 @@ sudo nano /etc/sudoers.d/xfce-nopasswd
 ```
 
 ```bash
-yourusername ALL=(ALL) NOPASSWD: ALL
+your_username ALL=(ALL) NOPASSWD: ALL

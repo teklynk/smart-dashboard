@@ -1,92 +1,107 @@
 # What Is Smart Dashboard?
-Smart Dashboard is a web interface that runs inside a browser in fullscreen kiosk mode, presenting a clean, app-grid layout similar to a smart TV home screen. Behind the scenes, a Python/Flask backend handles launching desktop apps, executing system commands, and opening web URLs - all triggered by clicking icons on the dashboard.
-
-The key idea: everything is treated like an app. Whether it's a Flatpak desktop application (Plex, Kodi, Jellyfin), a system command (shutdown, settings), or a web URL (Twitch, a local dashboard) - they all appear as icons on the grid and launch with a single click. Web URLs don't just open in a browser tab - they launch as sandboxed web apps in their own kiosk-style Brave instance, each with its own .config directory, window class, and scaling factor. This gives web apps the same fullscreen, immersive feel as native apps.
-
-The dashboard itself is designed to always be running. It launches on boot/login via autostart and sits as your home screen. Attempting to close it (via Alt+F4 or otherwise) triggers a confirmation prompt, so accidental exits won't happen. When you launch an app, it appears on top of the dashboard - when you close that app, you're right back at the home screen.
-
-Everything is configurable through plain JSON files and CSS:
-
-- **apps.json** - define which apps appear, their icons, launch commands, and per-app scaling
-- **tools.json** - define system actions in the toolbar (upper right), like shutdown, settings, or custom scripts
-- **weather.json** - set your location and weather API key
-- **CSS** - customize colors, layout, sizing, and appearance to your taste
-- **static/backgrounds/** - drop in your own wallpaper images; they're auto-detected and rotate every 5 minutes with a dissolve transition
-
-## Use Cases
-
-Smart Dashboard is flexible enough for many scenarios:
-
-- **Media center PC** - a TV-connected mini PC with Plex, Jellyfin, Kodi, and YouTube one click away
-- **Workplace dashboard** - a wall-mounted display showing internal tools, dashboards, or informational kiosks
-- **Infotainment kiosk** - a public-facing screen with curated apps and no way for users to escape to the desktop
-- **Repurposed hardware** - give an old laptop or mini PC a second life as a dedicated appliance
-
-If you can think of a use case, you just set the apps and tools you want, point it at the URLs or Flatpak apps you need, and let it run.
 
 [![In Action](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/dashboard_IMG_0951.jpg?raw=true))
 
-## Video Demo (Debian & Openbox)
-[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot5.jpg?raw=true)](https://odysee.com/@teklynk:c/Smart-Dashboard-Debian-Openbox:1?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+### Turn any computer into a smart-TV-style home screen
 
-## Video Demo (Debian & XFCE)
-[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+Click an icon → launch an app. Whether it's a desktop app (Plex, Kodi), a system command (shutdown, settings), or a website (Twitch, a business dashboard) — everything lives on the same fullscreen grid and launches with one click. Websites don't open in browser tabs — they become immersive, sandboxed web apps that fill the screen like native software.
 
-## Features
+Smart Dashboard is designed to *always be running*. It launches on boot, sits as your home screen, and resists accidental closure. Launch an app, it opens on top. Close it, and you're back at your grid. No desktop clutter, no hidden shortcuts, no escaping.
 
-- **App Launcher** - Click icons to launch Flatpak desktop apps (PlexHTPC Edition, Jellyfin Desktop, Kodi, VacuumTube (VacuumTube is an unofficial wrapper of the Smart TV version of YouTube)) or web apps (Twitch, custom URLs) that open as standalone kiosk windows via Brave
-- **Web App Management** - Web apps launch in their own Brave instance with a unique window class, allowing the dashboard to cleanly close one web app before opening another
-- **Tools Panel** - Quick access to system actions: Shutdown, Settings Manager, Input Remapper, and Close Dashboard
-- **Wallpaper Rotation** - Automatically scans static/backgrounds/ for images and generates backgrounds.json at startup
-- **Weather Widget** - Displays local weather using the OpenWeather API
-- **Kiosk Mode** - The dashboard itself runs fullscreen in Brave kiosk mode, giving it the look and feel of a native smart TV interface
-- **Remote Friendly** - Works with the MX3 Pro Mini Keyboard Backlight Fly Remote Mouse; map a key to Alt+F4 to close web apps
+## One Dashboard, Many Roles
 
-## How It Works
-The UI runs in a web browser and uses Python and Flask to route
+This isn't just a media center launcher. It's a platform that adapts to whatever you need:
 
-The Flask backend (server.py) serves the dashboard frontend and handles two main routes:
-| Route   |      Purpose      |
-|----------|-------------|
-| / | Renders the dashboard page with apps, tools, weather, and backgrounds |
-| /launch?app=AppName | Launches a desktop app (Flatpak) or web app (Brave kiosk) |
-| /tool?tool=ToolID | Executes a system tool/action |
+| Role | What it becomes |
+|---|---|
+| **Media Center PC** | Couch-first computing: Plex, Jellyfin, YouTube, streaming — all one click away |
+| **Kid's Computer** | Restricted, curated access. Only approved apps exist; nowhere else to wander |
+| **Business Kiosk** | Wall-mounted display showing catalogs, appointment booking, order forms, store maps |
+| **Repurposed Hardware** | Old laptop or mini-PC reborn as a dedicated appliance |
+| **Guest Terminal** | Welcome screen in an Airbnb, office, or waiting room |
+| **IoT Control Panel** | Local dashboards, camera feeds, automation tools on a single screen |
 
-**Web apps** (URLs starting with http:// or https://) are launched using:
-```bash
-/usr/bin/brave-origin-stable --app="<url>" --kiosk --class=WebApp-<Name> --name=WebApp-<Name> --user-data-dir=<unique-dir> --force-device-scale-factor=<factor>
-```
-Each web app gets its own user data directory and window class, allowing the server to detect and cleanly terminate the previous web app before launching a new one.
+> *If you can make it run, show it, or open — it can live on the grid.*
 
-**Desktop apps** are launched via their command (typically flatpak run ...).
+## Quick Start
 
-## System Requirements
-This project was developed and tested on:
+### Installation Options
+
+Choose your setup based on needs:
+
+- **[OpenBox](openbox_install_instructions.md)** — Minimal, lightweight. Just a window manager and compositor. Ideal for dedicated kiosks.
+- **[XFCE](xfce_install_instructions.md)** — Full desktop capabilities. Great if you need to switch users or access a traditional desktop environment.
+
+Both options are tested on **Debian 13 (Trixie)**.
+
+### System Requirements
 
 - **OS:** Debian 13 (Trixie)
 - **Desktop Environment:** XFCE4 or OpenBox
 - **Display Manager:** LightDM
 - **Browser:** Brave (Origin flavor)
 
-## Installation
+## Configuration
 
-You can use **OpenBox** or **XFCE** on top of the base install of Debian. 
+Everything is driven by plain JSON files and CSS. No database, no build step.
 
-([OpenBox instructions](https://github.com/teklynk/smart-dashboard/blob/main/openbox_install_instructions.md)) - Very minimal and light-weight. Window manager and compositor.
+| File | Purpose |
+|---|---|
+| `apps.json` | Define which apps appear, their icons, launch commands, and per-app scaling |
+| `tools.json` | Define system actions in the toolbar (upper right): shutdown, settings, custom scripts |
+| `weather.json` | Set your location and weather API key |
+| `static/backgrounds/` | Drop in wallpaper images — auto-detected and rotated every 5 minutes with dissolve transition |
+| CSS | Customize colors, layout, sizing, and overall appearance |
 
-([XFCE instructions](https://github.com/teklynk/smart-dashboard/blob/main/xfce_install_instructions.md)) - Has full desktop capabilities and experience. Great for if you want to switch to a different user and a full desktop environment.
+## Navigation
 
+| Input | Action |
+|---|---|
+| Arrow keys | Navigate through main app icons |
+| Tab / Shift+Tab | Access toolbar icons |
+| Alt+F4 | Close active web/desktop apps |
 
-### Navigation
+**Remote control supported:** Works with the [MX3 Pro Mini Keyboard Backlight Fly Remote Mouse](https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=MX3+Pro+Mini+Keyboard+Backlight+Fly+Remote+Mouse). Map a key to Alt+F4 to close apps wirelessly. [MX3 Pro Key Mappings](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/mx3-pro-remote-key-map.jpg)
 
-**Arrow keys** will let you move through the main apps/icons. 
+## Under the Hood
 
-**Tab and Shift+Tab** will let you access the Tool Bar apps/icons. 
+### How It Works
 
-**Alt+F4** will close most apps and web apps. 
+The UI runs in a web browser. A Python/Flask backend handles launching apps and routing commands.
 
-**MX3 Pro Mini Keyboard Backlight Fly Remote Mouse**
+| Route | Purpose |
+|---|---|
+| `/` | Renders the dashboard with apps, tools, weather, and backgrounds |
+| `/launch?app=AppName` | Launches a desktop app (Flatpak) or web app (Brave kiosk) |
+| `/tool?tool=ToolID` | Executes a system tool/action |
 
-These are the key mappings that I set using input-remapper
+**Web apps** launch in isolated Brave instances:
 
-[![MX3 Pro Remote](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/mx3-pro-remote-key-map.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/mx3-pro-remote-key-map.jpg?raw=true))
+```bash
+brave-origin --app="<url>" --kiosk --class=WebApp-<Name> --name=WebApp-<Name> --user-data-dir=<unique-dir> --force-device-scale-factor=<factor>
+```
+
+Each gets its own user data directory and window class, allowing the dashboard to cleanly close one app before opening another.
+
+**Desktop apps** launch via their command (typically flatpak run ...).
+
+## Recommended Add-ons
+
+These optional tools extend Smart Dashboard further:
+
+- **UFW** — Firewall rules
+- **Static IP** — /etc/network/interfaces
+- **LIRC** — IR remote sensor support
+- **uxplay** — Mirror iPhone/iPad to Linux
+- **RetroDECK** — Retro gaming platform manager
+- **Docker** — Run local web services/apps
+- **Video Conferencing** — Webcam integration with talk.brave.com
+- **caldera-music** — Multi-room music (Plexamp alternative)
+
+## Demos
+
+## Video Demo (Debian & Openbox)
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot5.jpg?raw=true)](https://odysee.com/@teklynk:c/Smart-Dashboard-Debian-Openbox:1?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+
+## Video Demo (Debian & XFCE)
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
