@@ -18,7 +18,11 @@ From this point on, you can SSH into Debian from another PC using the IP address
 
 ```bash
 su -
+
+apt install sudo
+
 usermod -aG sudo your_username
+
 exit
 ```
 
