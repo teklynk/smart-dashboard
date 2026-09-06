@@ -192,7 +192,16 @@ Replace your_username with your actual user name.
 
 ```bash
 #!/bin/bash
-bash /home/your_username/scripts/smart-dashboard/run_always.sh &
+
+# Start your apps
+uxplay &
+bash "$HOME/scripts/smart-dashboard/run_always.sh" &
+
+# Wait a moment for the daemon to be fully ready
+sleep 2
+
+# Load presets for the current user (runs synchronously)
+input-remapper-control --command autoload --config-dir "$HOME/.config/input-remapper-2"
 
 ```
 
