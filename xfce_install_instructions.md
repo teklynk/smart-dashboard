@@ -370,3 +370,25 @@ sudo nano /etc/sudoers.d/xfce-nopasswd
 
 ```bash
 your_username ALL=(ALL) NOPASSWD: ALL
+```
+
+### Installing Steam (Big Picture) on Debian with OpenBox
+
+```bash
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install steam-installer steam-devices
+```
+
+Example: apps.json Steam command.
+
+```json
+  {
+    "name": "Steam",
+    "icon": "icons/steam.png",
+    "command": "/usr/games/steam -bigpicture -no-cef-sandbox -no-breakpad -force-steam-display",
+    "force-device-scale-factor": "",
+    "incognito": false,
+    "fullscreen": false
+  }
+```

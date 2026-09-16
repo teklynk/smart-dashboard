@@ -104,5 +104,9 @@ These optional tools extend Smart Dashboard further:
 ## Video Demo (Debian & Openbox)
 [![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot5.jpg?raw=true)](https://odysee.com/@teklynk:c/Smart-Dashboard-Debian-Openbox:1?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
 
+**Steam: Big Picture**
+
+[![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot6.jpg?raw=true)](https://odysee.com/@teklynk:c/Smart-Dashboard-Demo-Steam:4?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)
+
 ## Video Demo (Debian & XFCE)
 [![Watch the demo](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot4.jpg?raw=true)](https://odysee.com/@teklynk:c/dashboard-demo-01:8?r=6kei5PPCVaPWL5HURU9aAyq2KXEoE6ki)

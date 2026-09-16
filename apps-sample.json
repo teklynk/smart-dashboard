@@ -54,5 +54,13 @@
     "force-device-scale-factor": "1.25",
     "incognito": true,
     "fullscreen": false
+  },
+  {
+    "name": "Steam",
+    "icon": "icons/steam.png",
+    "command": "/usr/games/steam -bigpicture -no-cef-sandbox -no-breakpad -force-steam-display",
+    "force-device-scale-factor": "",
+    "incognito": false,
+    "fullscreen": false
   }
 ]

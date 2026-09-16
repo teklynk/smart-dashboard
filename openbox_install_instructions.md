@@ -286,6 +286,7 @@ Defines the apps shown on the dashboard. Each entry includes:
   "icon": "icons/twitch.png",
   "command": "https://twitchmultiview.teklynk.com",
   "force-device-scale-factor": "1.25",
+  "incognito": false,
   "fullscreen": false
 }
 ```
@@ -365,6 +366,27 @@ Defines quick-action tools accessible from the dashboard. Fields:
 ```
 > Replace the API key with your own from [OpenWeather](https://openweathermap.org/api).
 
-## Backgrounds
+### Backgrounds
 
 Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run.sh script auto-generates backgrounds.json at startup.
+
+### Installing Steam (Big Picture) on Debian with OpenBox
+
+```bash
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install steam-installer steam-devices
+```
+
+Example: apps.json Steam command.
+
+```json
+  {
+    "name": "Steam",
+    "icon": "icons/steam.png",
+    "command": "/usr/games/steam -bigpicture -no-cef-sandbox -no-breakpad -force-steam-display",
+    "force-device-scale-factor": "",
+    "incognito": false,
+    "fullscreen": false
+  }
+```
