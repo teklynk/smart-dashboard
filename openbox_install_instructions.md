@@ -120,7 +120,7 @@ sudo systemctl enable --now bluetooth
 sudo apt install -y net-tools pavucontrol curl wget python3-full python3-pip \
 openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
 xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw v4l-utils ffmpeg \
-flatpak apt-transport-https psmisc wmctrl mpv tilix picom
+flatpak apt-transport-https psmisc wmctrl mpv tilix picom network-manager network-manager-gnome
 ```
 > You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
 
@@ -327,6 +327,15 @@ Defines quick-action tools accessible from the dashboard. Fields:
     "fullscreen": true
   },
   {
+    "id": "network-manager",
+    "name": "Network Manager",
+    "command": "nm-connection-editor",
+    "requires_confirmation": false,
+    "requires_sudo": false,
+    "icon": "icons/wifi.png",
+    "fullscreen": true
+  },
+  {
     "id": "terminal",
     "name": "Terminal",
     "command": "tilix --full-screen",
@@ -371,12 +380,10 @@ Defines quick-action tools accessible from the dashboard. Fields:
 
 Place wallpaper images (.jpg, .png, .gif, .webp) in static/backgrounds/. The run.sh script auto-generates backgrounds.json at startup.
 
-### Installing Steam (Big Picture) on Debian with OpenBox
+### Installing Steam (Big Picture)
 
 ```bash
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install steam-installer steam-devices
+flatpak install --user flathub com.valvesoftware.Steam
 ```
 
 Example: apps.json Steam command.
@@ -385,7 +392,7 @@ Example: apps.json Steam command.
   {
     "name": "Steam",
     "icon": "icons/steam.png",
-    "command": "/usr/games/steam -bigpicture",
+    "command": "flatpak run com.valvesoftware.Steam -bigpicture",
     "force-device-scale-factor": "",
     "incognito": false,
     "fullscreen": false
