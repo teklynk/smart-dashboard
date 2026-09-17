@@ -58,6 +58,10 @@
 
     <script>
         function launchApp(appName) {
+            if (window.pauseGamepadPolling) {
+                window.pauseGamepadPolling();
+            }
+
             fetch(`/launch?app=${encodeURIComponent(appName)}`)
                 .then(res => res.json())
                 .then(data => console.log(data));
@@ -109,6 +113,8 @@
             // Map a standard gamepad layout to the dashboard controls.
             const gamepadState = new Map();
             let gamepadFrameId = null;
+            let gamepadPolling = false;
+            let waitForNeutralGamepad = false;
 
             function focusNextElement(backward = false) {
                 const focusable = Array.from(document.querySelectorAll(
@@ -140,7 +146,13 @@
             }
 
             function pollGamepads() {
+                if (!document.hasFocus() || document.visibilityState !== 'visible') {
+                    stopGamepadPolling(true);
+                    return;
+                }
+
                 const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+                let anyActionPressed = false;
 
                 for (const gamepad of gamepads) {
                     if (!gamepad) continue;
@@ -158,8 +170,11 @@
                     if (isPressed(gamepad.buttons[5])) actions.push('shift-tab');
 
                     const pressedActions = new Set(actions);
+                    anyActionPressed = anyActionPressed || pressedActions.size > 0;
                     for (const action of pressedActions) {
-                        if (!previous[action]) triggerGamepadAction(action);
+                        if (!waitForNeutralGamepad && !previous[action]) {
+                            triggerGamepadAction(action);
+                        }
                     }
 
                     gamepadState.set(gamepad.index, Object.fromEntries(
@@ -167,11 +182,46 @@
                     ));
                 }
 
+                if (waitForNeutralGamepad && !anyActionPressed) {
+                    waitForNeutralGamepad = false;
+                    gamepadState.clear();
+                }
+
+                if (gamepadPolling) {
+                    gamepadFrameId = window.requestAnimationFrame(pollGamepads);
+                }
+            }
+
+            function stopGamepadPolling(waitForNeutral = false) {
+                gamepadPolling = false;
+                waitForNeutralGamepad = waitForNeutral;
+                gamepadState.clear();
+                if (gamepadFrameId !== null) {
+                    window.cancelAnimationFrame(gamepadFrameId);
+                    gamepadFrameId = null;
+                }
+            }
+
+            function startGamepadPolling() {
+                if (!('getGamepads' in navigator) || gamepadPolling) return;
+
+                gamepadPolling = true;
                 gamepadFrameId = window.requestAnimationFrame(pollGamepads);
             }
 
-            if ('getGamepads' in navigator) {
-                gamepadFrameId = window.requestAnimationFrame(pollGamepads);
+            window.pauseGamepadPolling = () => stopGamepadPolling(true);
+            window.addEventListener('blur', () => stopGamepadPolling(true));
+            window.addEventListener('focus', startGamepadPolling);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && document.hasFocus()) {
+                    startGamepadPolling();
+                } else {
+                    stopGamepadPolling(true);
+                }
+            });
+
+            if (document.visibilityState === 'visible' && document.hasFocus()) {
+                startGamepadPolling();
             }
 
             // Allow mouse click to also trigger
