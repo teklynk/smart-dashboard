@@ -2,9 +2,7 @@
 
 This will help you get Openbox installed, auto login and the Smart-Dashboard up and running.
 
-**Install Debian and uncheck all desktop environments. Only check SSH Server and System Essentials.**
-
-[![Debian minimal install](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot6.jpg?raw=true)](![target_url](https://github.com/teklynk/smart-dashboard/blob/main/resources/screenshots/screenshot6.jpg?raw=true))
+**During the Debian installation: Uncheck all desktop environments. Only check SSH Server and System Essentials.**
 
 ### SSH into Debian
 
@@ -122,7 +120,7 @@ sudo systemctl enable --now bluetooth
 sudo apt install -y net-tools pavucontrol curl wget python3-full python3-pip \
 openjdk-21-jre-headless git openssh-client openssh-server nfs-common \
 xdotool xinput input-remapper input-remapper-gtk pkexec unclutter ufw v4l-utils ffmpeg \
-flatpak apt-transport-https psmisc wmctrl mpv tilix
+flatpak apt-transport-https psmisc wmctrl mpv tilix picom
 ```
 > You can use `wmctrl` to open most desktop apps fullscreen: `flatpak run org.localsend.localsend_app >/dev/null 2>&1 & sleep 1 && wmctrl -r :ACTIVE: -b add,fullscreen,above`
 
@@ -188,21 +186,24 @@ The dashboard will be available at http://localhost:8080.
 nano ~/.config/openbox/autostart
 ```
 
+**Example autostart file. These are the things that I run on login. Modify this for your needs/setup
 Replace your_username with your actual user name.
 
 ```bash
 #!/bin/bash
 
+# Display resolution
+xrandr --output HDMI-0 --mode 1920x1080 --primary &
+
+# Set compositor (needed for steam big picture with a dedicated GPU)
+picom -b --backend glx --vsync &
+
 # Start your apps
 uxplay &
 bash "$HOME/scripts/smart-dashboard/run_always.sh" &
 
-# Wait a moment for the daemon to be fully ready
-sleep 2
-
 # Load presets for the current user (runs synchronously)
 input-remapper-control --command autoload --config-dir "$HOME/.config/input-remapper-2"
-
 ```
 
 ```bash
@@ -384,7 +385,7 @@ Example: apps.json Steam command.
   {
     "name": "Steam",
     "icon": "icons/steam.png",
-    "command": "/usr/games/steam -bigpicture -no-cef-sandbox -no-breakpad -force-steam-display",
+    "command": "/usr/games/steam -bigpicture",
     "force-device-scale-factor": "",
     "incognito": false,
     "fullscreen": false
