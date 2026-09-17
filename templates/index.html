@@ -106,6 +106,74 @@
                 }
             });
 
+            // Map a standard gamepad layout to the dashboard controls.
+            const gamepadState = new Map();
+            let gamepadFrameId = null;
+
+            function focusNextElement(backward = false) {
+                const focusable = Array.from(document.querySelectorAll(
+                    'button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                ));
+                const currentIndex = focusable.indexOf(document.activeElement);
+                if (currentIndex === -1 || focusable.length === 0) return;
+
+                const offset = backward ? -1 : 1;
+                const nextIndex = (currentIndex + offset + focusable.length) % focusable.length;
+                focusable[nextIndex].focus();
+            }
+
+            function triggerGamepadAction(action) {
+                if (action === 'tab') {
+                    focusNextElement();
+                } else if (action === 'shift-tab') {
+                    focusNextElement(true);
+                } else {
+                    document.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: action,
+                        bubbles: true
+                    }));
+                }
+            }
+
+            function isPressed(button) {
+                return button && button.pressed;
+            }
+
+            function pollGamepads() {
+                const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+                for (const gamepad of gamepads) {
+                    if (!gamepad) continue;
+
+                    const previous = gamepadState.get(gamepad.index) || {};
+                    const actions = [];
+
+                    // Standard mapping: d-pad 12-15, A 0, LB 4, RB 5.
+                    if (isPressed(gamepad.buttons[12]) || gamepad.axes[1] < -0.5) actions.push('ArrowUp');
+                    if (isPressed(gamepad.buttons[13]) || gamepad.axes[1] > 0.5) actions.push('ArrowDown');
+                    if (isPressed(gamepad.buttons[14]) || gamepad.axes[0] < -0.5) actions.push('ArrowLeft');
+                    if (isPressed(gamepad.buttons[15]) || gamepad.axes[0] > 0.5) actions.push('ArrowRight');
+                    if (isPressed(gamepad.buttons[0])) actions.push('Enter');
+                    if (isPressed(gamepad.buttons[4])) actions.push('tab');
+                    if (isPressed(gamepad.buttons[5])) actions.push('shift-tab');
+
+                    const pressedActions = new Set(actions);
+                    for (const action of pressedActions) {
+                        if (!previous[action]) triggerGamepadAction(action);
+                    }
+
+                    gamepadState.set(gamepad.index, Object.fromEntries(
+                        Array.from(pressedActions, action => [action, true])
+                    ));
+                }
+
+                gamepadFrameId = window.requestAnimationFrame(pollGamepads);
+            }
+
+            if ('getGamepads' in navigator) {
+                gamepadFrameId = window.requestAnimationFrame(pollGamepads);
+            }
+
             // Allow mouse click to also trigger
             apps.forEach(app => {
                 app.addEventListener('click', () => launchApp(app.dataset.app));
