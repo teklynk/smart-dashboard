@@ -236,8 +236,14 @@ mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.bkup
 nano ~/.config/openbox/rc.xml
 ```
 
-```bash
+```xml
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <desktops>
+    <number>1</number>
+  </desktops>
+  <mouse>
+    <screenEdgeWarpTime>0</screenEdgeWarpTime>
+  </mouse>
   <keyboard noremap="yes">
     <chainkeykey>C-g</chainkeykey>
     <keybind key="A-F4">
