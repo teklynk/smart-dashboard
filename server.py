@@ -255,7 +255,8 @@ def launch_app():
             "--allow-running-insecure-content",
             f"--force-device-scale-factor={scale_factor}",
             "--use-gl=desktop",
-            "--disable-gpu-compositing"
+            "--disable-gpu-compositing",
+            "--password-store=basic"
         ]
 
         if incognito_enabled:
