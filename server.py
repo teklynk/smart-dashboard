@@ -253,7 +253,8 @@ def launch_app():
             "--noerrdialogs",
             "--disable-context-menu",
             "--allow-running-insecure-content",
-            f"--force-device-scale-factor={scale_factor}"
+            f"--force-device-scale-factor={scale_factor}",
+            "--use-gl=desktop"
         ]
 
         if incognito_enabled:

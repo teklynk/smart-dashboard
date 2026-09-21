@@ -75,11 +75,11 @@ sudo systemctl status mbpfan.service
 ```
 > `mbpfan` is a fan control daemon that works with older macbooks, imac and mac mini
 
-## Install Openbox and lightdm
+## Install Openbox
 
 ```bash
 sudo apt update
-sudo apt install openbox lightdm lightdm-gtk-greeter
+sudo apt install openbox
 ```
 
 Create the config directory (if it doesn't exist):
@@ -87,24 +87,36 @@ Create the config directory (if it doesn't exist):
 mkdir -p ~/.config/openbox
 ```
 
-### Configure Auto-Login with LightDM
-
-To make the system boot directly into Openbox without asking for a password:
-
+### Configure Auto-Login
 ```bash
-sudo nano /etc/lightdm/lightdm.conf
-```
-Find `[Seat:*]`, and add these lines. Replace your_username with your actual user name.
-
-```bash
-[Seat:*]
-autologin-user=your_username
-autologin-user-timeout=0
+sudo apt install xinit
 ```
 
 ```bash
-sudo systemctl enable lightdm
-sudo systemctl start lightdm
+nano ~/.xinitrc
+
+# Add
+exec openbox-session
+```
+
+Create a autostart service (replace "your_username")
+
+```bash
+nano /etc/systemd/system/getty@tty1.service.d/override.conf
+
+# Add
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin your_username --noclear %I $TERM
+```
+
+Set "startx" to run on boot
+
+```bash
+nano ~/.profile
+
+# Add
+[[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]] && exec startx
 ```
 
 ### Install Bluetooth (optional)
@@ -187,7 +199,6 @@ nano ~/.config/openbox/autostart
 ```
 
 **Example autostart file. These are the things that I run on login. Modify this for your needs/setup
-Replace your_username with your actual user name.
 
 ```bash
 #!/bin/bash
