@@ -239,7 +239,7 @@ def launch_app():
         close_existing_webapp(app_label)
 
         # Create a unique user data directory for this app
-        user_data_dir = os.path.expanduser("~/.config/dashboard-webapp")
+        user_data_dir = os.path.expanduser(f"~/.config/dashboard-webapp-{app_label.replace(' ', '_')}")
         os.makedirs(user_data_dir, exist_ok=True)
 
         browser_args = [
@@ -254,7 +254,8 @@ def launch_app():
             "--disable-context-menu",
             "--allow-running-insecure-content",
             f"--force-device-scale-factor={scale_factor}",
-            "--use-gl=desktop"
+            "--use-gl=desktop",
+            "--disable-gpu-compositing"
         ]
 
         if incognito_enabled:
