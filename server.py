@@ -239,7 +239,7 @@ def launch_app():
         close_existing_webapp(app_label)
 
         # Create a unique user data directory for this app
-        user_data_dir = os.path.expanduser(f"~/.config/dashboard-webapp-{app_label.replace(' ', '_')}")
+        user_data_dir = os.path.expanduser("~/.config/dashboard-webapp")
         os.makedirs(user_data_dir, exist_ok=True)
 
         browser_args = [
