@@ -398,8 +398,8 @@
             }
         }
 
-        // Fetch immediately, then every hour
-        fetchWeather();
+        // Give the network time to come online before the first request.
+        setTimeout(fetchWeather, 30000); // wait 30 seconds before first fetch and for internet to come online
         setInterval(fetchWeather, 3600000);
 
         // Launch tools with confirmation for destructive actions
