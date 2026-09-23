@@ -195,14 +195,19 @@ nano ~/.config/openbox/autostart
 xrandr --output HDMI-0 --mode 1920x1080 --primary &
 
 # Set compositor (needed for steam big picture with a dedicated GPU)
-picom -b --backend glx --vsync &
+picom -b --backend xrender --vsync &
 
 # Start your apps
 uxplay &
+
 bash "$HOME/scripts/smart-dashboard/run_always.sh" &
 
 # Load presets for the current user (runs synchronously)
 input-remapper-control --command autoload --config-dir "$HOME/.config/input-remapper-2"
+
+# Prime the compositor with a window interaction
+sleep 10
+xdotool mousemove 10 10 click 1 2>/dev/null || true
 ```
 
 ```bash
@@ -243,12 +248,20 @@ nano ~/.config/openbox/rc.xml
   <mouse>
     <screenEdgeWarpTime>0</screenEdgeWarpTime>
   </mouse>
+  <focus>
+    <followMouse>no</followMouse>
+    <focusNew>yes</focusNew>
+    <raiseOnFocus>yes</raiseOnFocus>
+  </focus>
   <keyboard noremap="yes">
     <chainkeykey>C-g</chainkeykey>
     <keybind key="A-F4">
       <action name="Close"/>
     </keybind>
   </keyboard>
+  <window_options>
+    <raiseOnFocus>yes</raiseOnFocus>
+  </window_options>
 </openbox_config>
 ```
 
