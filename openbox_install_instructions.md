@@ -46,7 +46,6 @@ deb http://security.debian.org/debian-security trixie-security main contrib non-
 ### Fix Time Sync (Crucial for apt update)
 
 ```bash
-sudo apt install systemd-timesyncd
 sudo nano /etc/systemd/timesyncd.conf
 ```
 
