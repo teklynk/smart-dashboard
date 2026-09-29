@@ -148,7 +148,8 @@ flatpak install --user flathub -y \
     rocks.shy.VacuumTube \
     tv.kodi.Kodi \
     tv.plex.PlexHTPC \
-    org.jellyfin.JellyfinDesktop
+    org.jellyfin.JellyfinDesktop \
+    net.retrodeck.retrodeck
 ```
 
 ### Clone and Set Up the Dashboard
@@ -293,7 +294,15 @@ Defines the apps shown on the dashboard. Each entry includes:
   "force-device-scale-factor": "",
   "incognito": false,
   "fullscreen": false
-}
+},
+{
+  "name": "RetroDECK",
+  "icon": "icons/retrodeck.png",
+  "command": "flatpak run net.retrodeck.retrodeck",
+  "force-device-scale-factor": "",
+  "incognito": false,
+  "fullscreen": false
+},
 ```
 
 **Web app example:**
@@ -303,6 +312,14 @@ Defines the apps shown on the dashboard. Each entry includes:
   "name": "Twitch",
   "icon": "icons/twitch.png",
   "command": "https://twitchmultiview.teklynk.com",
+  "force-device-scale-factor": "1.25",
+  "incognito": false,
+  "fullscreen": false
+},
+{
+  "name": "RetroAssembly",
+  "icon": "icons/retroassembly.png",
+  "command": "http://192.168.0.40:8088",
   "force-device-scale-factor": "1.25",
   "incognito": false,
   "fullscreen": false

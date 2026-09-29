@@ -80,7 +80,8 @@ runuser -u "$DASHBOARD_USER" -- flatpak install --user --noninteractive -y flath
     rocks.shy.VacuumTube \
     tv.kodi.Kodi \
     tv.plex.PlexHTPC \
-    org.jellyfin.JellyfinDesktop
+    org.jellyfin.JellyfinDesktop \
+    net.retrodeck.retrodeck
 
 # Clone or update the dashboard as the desktop user.
 install -d -o "$DASHBOARD_USER" -g "$DASHBOARD_USER" "$DASHBOARD_HOME/scripts"
