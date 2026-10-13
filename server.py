@@ -143,11 +143,11 @@ def find_window_id_by_pid(pid, retries=5, interval=0.1):
     return None
 
 
-def add_wmctrl_state(window_id, state, retries=3, interval=0.1):
+def set_wmctrl_state(window_id, state, action, retries=3, interval=0.1):
     for _ in range(retries):
         try:
             subprocess.run(
-                ["wmctrl", "-ir", window_id, "-b", f"add,{state}"],
+                ["wmctrl", "-ir", window_id, "-b", f"{action},{state}"],
                 check=True,
             )
             return True
@@ -169,15 +169,17 @@ def apply_window_behavior(label=None, pid=None, fullscreen=False):
         return False
 
     applied = False
-    if add_wmctrl_state(window_id, "above"):
+    if set_wmctrl_state(window_id, "above", "add"):
         applied = True
 
     if fullscreen:
-        if add_wmctrl_state(window_id, "fullscreen"):
+        if set_wmctrl_state(window_id, "fullscreen", "add"):
             applied = True
         else:
-            if add_wmctrl_state(window_id, "maximized_vert,maximized_horz"):
+            if set_wmctrl_state(window_id, "maximized_vert,maximized_horz", "add"):
                 applied = True
+    elif set_wmctrl_state(window_id, "fullscreen", "remove"):
+        applied = True
 
     return applied
 
@@ -203,10 +205,16 @@ def launch_tool():
         close_fds=True,
     )
 
+    fullscreen = tool.get("fullscreen", False)
+    if isinstance(fullscreen, str):
+        fullscreen = fullscreen.strip().lower() == "true"
+    else:
+        fullscreen = bool(fullscreen)
+
     apply_window_behavior(
         tool["name"],
         pid=proc.pid,
-        fullscreen=tool.get("fullscreen", False),
+        fullscreen=fullscreen,
     )
 
     return jsonify(status="success")
