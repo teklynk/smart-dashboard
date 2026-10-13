@@ -260,11 +260,8 @@ def launch_app():
             "--no-first-run",
             "--noerrdialogs",
             "--disable-context-menu",
-            "--force-renderer-accessibility",
             "--allow-running-insecure-content",
             f"--force-device-scale-factor={scale_factor}",
-            "--use-gl=desktop",
-            "--disable-gpu-compositing",
             "--password-store=basic"
         ]
 
