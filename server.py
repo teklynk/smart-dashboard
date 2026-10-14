@@ -268,6 +268,8 @@ def launch_app():
             "--disable-privacy-sandbox",
             "--disable-third-party-cookies-phaseout",
             "--enable-third-party-cookies",
+            "--disable-features=StorageAccessAPI",
+            "--disable-storage-access-api",
             "--disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection"
         ]
 

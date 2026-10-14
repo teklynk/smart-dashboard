@@ -59,4 +59,4 @@ killall -9 chromium 2>/dev/null
 sleep 1
 
 # Launch Browser in fullscreen
-/usr/bin/chromium --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --no-default-browser-check --noerrdialogs --disable-context-menu --disable-session-crashed-bubble --password-store=basic --disable-sync --disable-privacy-sandbox --disable-third-party-cookies-phaseout --enable-third-party-cookies --disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection
+/usr/bin/chromium --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --no-default-browser-check --noerrdialogs --disable-context-menu --disable-session-crashed-bubble --password-store=basic --disable-sync --disable-privacy-sandbox --disable-third-party-cookies-phaseout --enable-third-party-cookies --disable-features=StorageAccessAPI --disable-storage-access-api --disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection

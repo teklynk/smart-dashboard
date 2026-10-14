@@ -69,8 +69,8 @@ apt-get install -y \
     v4l-utils ffmpeg flatpak apt-transport-https psmisc wmctrl mpv tilix \
     picom network-manager network-manager-gnome
 
-# Install Brave Origin, which is used by run.sh for the kiosk window.
-curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin bash
+# Install Chromium, which is used by run.sh for the kiosk window.
+apt-get install chromium -y
 
 # Configure Flathub and install the dashboard's documented desktop apps.
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
