@@ -263,9 +263,10 @@ def launch_app():
             "--disable-context-menu",
             "--disable-session-crashed-bubble",
             "--allow-running-insecure-content",
-            "--disable-features=FirstPartySets,SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure",
+            "--disable-features=FirstPartySets,SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure,PartitionedCookies,BraveFingerprintingV2",
             f"--force-device-scale-factor={scale_factor}",
-            "--password-store=basic"
+            "--password-store=basic",
+            "--disable-sync"
         ]
 
         if incognito_enabled:
