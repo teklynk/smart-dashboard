@@ -258,9 +258,12 @@ def launch_app():
             f"--user-data-dir={user_data_dir}",
             "--kiosk",
             "--no-first-run",
+            "--no-default-browser-check",
             "--noerrdialogs",
             "--disable-context-menu",
+            "--disable-session-crashed-bubble",
             "--allow-running-insecure-content",
+            "--disable-features=FirstPartySets,SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure",
             f"--force-device-scale-factor={scale_factor}",
             "--password-store=basic"
         ]
