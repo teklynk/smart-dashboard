@@ -246,16 +246,11 @@ def launch_app():
     if command.startswith("http://") or command.startswith("https://"):
         close_existing_webapp(app_label)
 
-        # Create a unique user data directory for this app
-        user_data_dir = os.path.expanduser(f"~/.config/dashboard-webapp-{app_label.replace(' ', '_')}")
-        os.makedirs(user_data_dir, exist_ok=True)
-
         browser_args = [
             "/usr/bin/chromium",
             f"--app={command}",
             f"--class=WebApp-{app_label}",
             f"--name=WebApp-{app_label}",
-            f"--user-data-dir={user_data_dir}",
             "--kiosk",
             "--no-first-run",
             "--no-default-browser-check",
@@ -266,11 +261,7 @@ def launch_app():
             "--password-store=basic",
             "--disable-sync",
             "--disable-privacy-sandbox",
-            "--disable-third-party-cookies-phaseout",
-            "--enable-third-party-cookies",
-            "--disable-features=StorageAccessAPI",
-            "--disable-storage-access-api",
-            "--disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection"
+            "--disable-features=StorageAccessAPI,PartitionedCookies,FirstPartySets,BounceTrackingProtection"
         ]
 
         if incognito_enabled:

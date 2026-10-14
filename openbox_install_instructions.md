@@ -127,10 +127,10 @@ flatpak apt-transport-https psmisc wmctrl mpv tilix picom network-manager networ
 
 > You can use `xdotool` to perform window actions: `gparted & sleep 1 && xdotool search --name "/dev/sda - GParted" --limit 1 windowactivate --sync windowstate --add fullscreen above`
 
-### Install Brave Browser
+### Install Chromium Browser
 
 ```bash
-curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh
+sudo apt install chromium -y
 ```
 
 ### Set Up Flatpak
