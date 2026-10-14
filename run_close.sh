@@ -8,6 +8,6 @@
 pkill -f "python.*server.py"
 
 # Kill any existing browser instances
-killall -9 chromium-browser 2>/dev/null
+killall -9 chromium 2>/dev/null
 
 sleep 1

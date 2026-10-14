@@ -251,7 +251,7 @@ def launch_app():
         os.makedirs(user_data_dir, exist_ok=True)
 
         browser_args = [
-            "/usr/bin/chromium-browser",
+            "/usr/bin/chromium",
             f"--app={command}",
             f"--class=WebApp-{app_label}",
             f"--name=WebApp-{app_label}",
