@@ -251,7 +251,7 @@ def launch_app():
         os.makedirs(user_data_dir, exist_ok=True)
 
         browser_args = [
-            "/usr/bin/brave-origin-stable",
+            "/usr/bin/chromium-browser",
             f"--app={command}",
             f"--class=WebApp-{app_label}",
             f"--name=WebApp-{app_label}",
@@ -264,7 +264,11 @@ def launch_app():
             "--disable-session-crashed-bubble",
             f"--force-device-scale-factor={scale_factor}",
             "--password-store=basic",
-            "--disable-sync"
+            "--disable-sync",
+            "--disable-privacy-sandbox",
+            "--disable-third-party-cookies-phaseout",
+            "--enable-third-party-cookies",
+            "--disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection"
         ]
 
         if incognito_enabled:

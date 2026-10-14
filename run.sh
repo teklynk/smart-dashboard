@@ -49,7 +49,7 @@ done
 pkill -f "python.*server.py"
 
 # Kill any existing browser instances
-killall -9 brave 2>/dev/null
+killall -9 chromium-browser 2>/dev/null
 
 # --- STARTUP: Launch new instances ---
 
@@ -59,4 +59,4 @@ killall -9 brave 2>/dev/null
 sleep 1
 
 # Launch Browser in fullscreen
-/usr/bin/brave-origin-stable --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --noerrdialogs --disable-context-menu --force-renderer-accessibility --use-gl=desktop --disable-gpu-compositing --password-store=basic
+/usr/bin/chromium-browser --app="http://127.0.0.1:8080" --kiosk --class=WebApp-Dashboard --name=WebApp-Dashboard --no-first-run --no-default-browser-check --noerrdialogs --disable-context-menu --disable-session-crashed-bubble --password-store=basic --disable-sync --disable-privacy-sandbox --disable-third-party-cookies-phaseout --enable-third-party-cookies --disable-features=StorageAccessAPI,PartitionedCookies,CHIPS,FirstPartySets,BounceTrackingProtection
